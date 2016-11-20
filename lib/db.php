@@ -1,11 +1,11 @@
 <?php
 
-namespace MakeUp\lib;
+namespace makeup\lib;
 
 
 /**
  * Class DB
- * @package MakeUp\lib
+ * @package makeup\lib
  */
 class DB
 {

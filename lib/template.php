@@ -1,11 +1,11 @@
 <?php
 
-namespace MakeUp\lib;
+namespace makeup\lib;
 
 
 /**
  * Class Template
- * @package MakeUp\lib
+ * @package makeup\lib
  */
 class Template
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace MakeUp\lib;
+namespace makeup\lib;
 
 
 class Config
@@ -10,13 +10,13 @@ class Config
 
     public static function init($moduleClassName = "app")
     {
-        $appConfig = parse_ini_file("MakeUp/app/config/app.ini", true);
+        $appConfig = parse_ini_file("makeup/app/config/app.ini", true);
         $appConfig['additional_css_files']['css'] = self::setAppCssFilesPath($appConfig);
         $appConfig['additional_js_files_head']['js'] = self::setAppJsFilesHeadPath($appConfig);
         $appConfig['additional_js_files_body']['js'] = self::setAppJsFilesBodyPath($appConfig);
 
-        if (file_exists("MakeUp/modules/$moduleClassName/config/$moduleClassName.ini")) {
-            $modConfig = parse_ini_file("MakeUp/modules/$moduleClassName/config/$moduleClassName.ini", true);
+        if (file_exists("makeup/modules/$moduleClassName/config/$moduleClassName.ini")) {
+            $modConfig = parse_ini_file("makeup/modules/$moduleClassName/config/$moduleClassName.ini", true);
             $modConfig['additional_css_files']['css'] = self::setModCssFilesPath($modConfig, $moduleClassName);
             $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleClassName);
             $modConfig['additional_js_files_body']['js'] = self::setModJsFilesBodyPath($modConfig, $moduleClassName);
@@ -122,7 +122,7 @@ class Config
         if (isset($config['additional_css_files']['css'][0]) && $config['additional_css_files']['css'][0]) {
             $newPath = [];
             foreach ($config['additional_css_files']['css'] as $file) {
-                $newPath[] = "MakeUp/app/res/css/$file";
+                $newPath[] = "makeup/app/res/css/$file";
             }
             return $newPath;
         }
@@ -138,7 +138,7 @@ class Config
         if (isset($config['additional_js_files_head']['js'][0]) && $config['additional_js_files_head']['js'][0]) {
             $newPath = [];
             foreach ($config['additional_js_files_head']['js'] as $file) {
-                $newPath[] = "MakeUp/app/res/js/$file";
+                $newPath[] = "makeup/app/res/js/$file";
             }
             return $newPath;
         }
@@ -154,7 +154,7 @@ class Config
         if (isset($config['additional_js_files_body']['js'][0]) && $config['additional_js_files_body']['js'][0]) {
             $newPath = [];
             foreach ($config['additional_js_files_body']['js'] as $file) {
-                $newPath[] = "MakeUp/app/res/js/$file";
+                $newPath[] = "makeup/app/res/js/$file";
             }
             return $newPath;
         }
@@ -171,7 +171,7 @@ class Config
         if (isset($config['additional_css_files']['css'][0]) && $config['additional_css_files']['css'][0]) {
             $newPath = [];
             foreach ($config['additional_css_files']['css'] as $file) {
-                $newPath[] = "MakeUp/modules/$mod/res/css/$file";
+                $newPath[] = "makeup/modules/$mod/res/css/$file";
             }
             return $newPath;
         }
@@ -188,7 +188,7 @@ class Config
         if (isset($config['additional_js_files_head']['js'][0]) && $config['additional_js_files_head']['css'][0]) {
             $newPath = [];
             foreach ($config['additional_js_files_head']['js'] as $file) {
-                $newPath[] = "MakeUp/modules/$mod/res/js/$file";
+                $newPath[] = "makeup/modules/$mod/res/js/$file";
             }
             return $newPath;
         }
@@ -205,7 +205,7 @@ class Config
         if (isset($config['additional_js_files_body']['js'][0]) && $config['additional_js_files_body']['css'][0]) {
             $newPath = [];
             foreach ($config['additional_js_files_body']['js'] as $file) {
-                $newPath[] = "MakeUp/modules/$mod/res/js/$file";
+                $newPath[] = "makeup/modules/$mod/res/js/$file";
             }
             return $newPath;
         }

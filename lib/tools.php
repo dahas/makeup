@@ -1,6 +1,6 @@
 <?php
 
-namespace MakeUp\lib;
+namespace makeup\lib;
 
 
 /**
@@ -8,7 +8,7 @@ namespace MakeUp\lib;
  * Some of them are only used by the framework itself.
  *
  * Class Tools
- * @package MakeUp\lib
+ * @package makeup\lib
  */
 class Tools
 {

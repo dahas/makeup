@@ -1,6 +1,6 @@
 <?php
 
-namespace MakeUp\app\controller;
+namespace makeup\app\controller;
 
 
 /**********************************************************************************************************************
@@ -19,12 +19,12 @@ function autoloader($class)
 spl_autoload_register(__NAMESPACE__ . '\autoloader');
 
 
-require_once "MakeUp/vendor/autoload.php";
+require_once "makeup/vendor/autoload.php";
 
 
-use MakeUp\lib\Config;
-use MakeUp\lib\Tools;
-use MakeUp\lib\Module;
+use makeup\lib\Config;
+use makeup\lib\Tools;
+use makeup\lib\Module;
 
 
 class App extends Module

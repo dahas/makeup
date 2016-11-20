@@ -1,7 +1,7 @@
 <?php
 
-use MakeUp\lib\Module;
-use MakeUp\lib\Template;
+use makeup\lib\Module;
+use makeup\lib\Template;
 
 
 /**
@@ -16,7 +16,7 @@ class TwbsTable extends Module
     /**
      * This is how you inject a service.
      *
-     * @Inject("MakeUp\services\Data")
+     * @Inject("makeup\services\Data")
      */
     private $Data;
 
@@ -64,7 +64,7 @@ class TwbsTable extends Module
          * Or get an extra template file for the supart.
          */
         $markerString = "%TMPL_ROWS%";
-        $partial = Template::load("MakeUp/modules/twbs_table/view/twbs_table_row.html");
+        $partial = Template::load("makeup/modules/twbs_table/view/twbs_table_row.html");
         $marker[$markerString] = "";
 
         // Iterate with getItem() thru the data that the service provides.

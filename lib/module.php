@@ -1,17 +1,17 @@
 <?php
 
-namespace MakeUp\lib;
+namespace makeup\lib;
 
 use DI\ContainerBuilder;
 
 
 /**
  * Abstract Class Module
- * @package MakeUp\lib\interfaces
+ * @package makeup\lib\interfaces
  */
 abstract class Module
 {
-    protected $resFolder = "MakeUp/app/res";
+    protected $resFolder = "makeup/app/res";
 
     protected $Template = null;
 
@@ -31,9 +31,9 @@ abstract class Module
         $this->_get = Tools::parseQueryString();
 
         if ($moduleFileName == "app")
-            $this->Template = Template::load("MakeUp/app/view/app.html");
+            $this->Template = Template::load("makeup/app/view/app.html");
         else
-            $this->Template = Template::load("MakeUp/modules/$moduleFileName/view/$moduleFileName.html");
+            $this->Template = Template::load("makeup/modules/$moduleFileName/view/$moduleFileName.html");
     }
 
 
@@ -57,7 +57,7 @@ abstract class Module
             $className = Tools::upperCamelCase($name);
         }
 
-        $modFile = "MakeUp/modules/$name/controller/$name.php";
+        $modFile = "makeup/modules/$name/controller/$name.php";
 
         if (is_file($modFile)) {
             $builder = new ContainerBuilder();
@@ -99,7 +99,7 @@ abstract class Module
 
 /**
  * Class ErrorMod
- * @package MakeUp\lib
+ * @package makeup\lib
  */
 class ErrorMod
 {

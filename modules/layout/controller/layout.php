@@ -1,7 +1,7 @@
 <?php
 
-use MakeUp\lib\Module;
-use MakeUp\lib\Config;
+use makeup\lib\Module;
+use makeup\lib\Config;
 
 
 /**

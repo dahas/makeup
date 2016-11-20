@@ -1,14 +1,14 @@
 <?php
 
-namespace MakeUp\services;
+namespace makeup\services;
 
-use MakeUp\lib\Service;
-use MakeUp\lib\ServiceItem;
+use makeup\lib\Service;
+use makeup\lib\ServiceItem;
 
 
 /**
  * Class Data
- * @package MakeUp\services
+ * @package makeup\services
  */
 class Data extends Service
 {
@@ -31,7 +31,7 @@ class Data extends Service
  * Name this class according to the service but add "Item" as suffix.
  *
  * Class DataItem
- * @package MakeUp\services
+ * @package makeup\services
  */
 class DataItem extends ServiceItem
 {
