@@ -29,6 +29,11 @@ class Home extends Module
     {
         $marker["%MAIN_TITLE%"] = Config::get("page_settings|title");
 
+        $marker["%CODE%"] = htmlspecialchars('<?php
+require_once(\'makeup/app/controller/app.php\');
+$App = new makeup\app\controller\App();
+echo $App->execute();');
+
         return $this->Template->parse($marker);
     }
 }
