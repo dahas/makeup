@@ -39,6 +39,8 @@ class App extends Module
 
 
     /**
+     * Run the app and display its content.
+     *
      * @return mixed|string
      */
     public function execute()
@@ -53,8 +55,7 @@ class App extends Module
         if (isset($this->RQ['nowrap']) || $task != "render")
             $appHtml = Module::create($modName)->$task();
         else {
-            $mod = $modName ? $modName : Config::get('app_settings|layout_default_module');
-            $appHtml = $this->render($mod);
+            $appHtml = $this->render($modName);
         }
 
         die($appHtml);
@@ -62,6 +63,8 @@ class App extends Module
 
 
     /**
+     * Build and render the complete HTML.
+     *
      * @param $modName
      * @return mixed|string
      */
@@ -70,7 +73,14 @@ class App extends Module
         $additionalCssFiles = Config::getAdditionalCssFiles();
         $additionalJsFilesHead = Config::getAdditionalJsFilesHead();
         $additionalJsFilesBody = Config::getAdditionalJsFilesBody();
+
         $bodyOnload = Tools::getBodyOnload();
+
+        /**
+         * If no module name is given, use the default one!
+         */
+        if (!$modName)
+            $modName = Config::get('app_settings|layout_default_module');
 
         $ModLayout = Module::create(Config::get('app_settings|layout_module'));
         $marker['%LAYOUT%'] = $ModLayout->render($modName);
