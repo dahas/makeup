@@ -18,11 +18,19 @@ class Template
     }
 
     /**
-     * @param $file
+     * @param $modName
+     * @param $templateFile
      * @return Template
      */
-    public static function load($file)
+    public static function load($modName, $templateFile)
     {
+        $modName = Tools::camelCaseToUnderscore($modName);
+
+        if ($modName == "app")
+            $file = "makeup/$modName/view/$templateFile";
+        else
+            $file = "makeup/modules/$modName/view/$templateFile";
+
         return new Template($file);
     }
 

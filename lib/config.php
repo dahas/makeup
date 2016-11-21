@@ -8,18 +8,18 @@ class Config
     private static $config = array();
 
 
-    public static function init($moduleClassName = "app")
+    public static function init($moduleFileName = "App")
     {
         $appConfig = parse_ini_file("makeup/app/config/app.ini", true);
         $appConfig['additional_css_files']['css'] = self::setAppCssFilesPath($appConfig);
         $appConfig['additional_js_files_head']['js'] = self::setAppJsFilesHeadPath($appConfig);
         $appConfig['additional_js_files_body']['js'] = self::setAppJsFilesBodyPath($appConfig);
 
-        if (file_exists("makeup/modules/$moduleClassName/config/$moduleClassName.ini")) {
-            $modConfig = parse_ini_file("makeup/modules/$moduleClassName/config/$moduleClassName.ini", true);
-            $modConfig['additional_css_files']['css'] = self::setModCssFilesPath($modConfig, $moduleClassName);
-            $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleClassName);
-            $modConfig['additional_js_files_body']['js'] = self::setModJsFilesBodyPath($modConfig, $moduleClassName);
+        if (file_exists("makeup/modules/$moduleFileName/config/$moduleFileName.ini")) {
+            $modConfig = parse_ini_file("makeup/modules/$moduleFileName/config/$moduleFileName.ini", true);
+            $modConfig['additional_css_files']['css'] = self::setModCssFilesPath($modConfig, $moduleFileName);
+            $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleFileName);
+            $modConfig['additional_js_files_body']['js'] = self::setModJsFilesBodyPath($modConfig, $moduleFileName);
             $appConfig = array_merge_recursive($appConfig, $modConfig);
         }
 

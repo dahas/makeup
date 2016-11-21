@@ -1,7 +1,7 @@
 <?php
 
 use makeup\lib\Module;
-use makeup\lib\Config;
+use makeup\lib\Template;
 
 
 /**
@@ -23,15 +23,31 @@ class Layout extends Module
 
 
     /**
+     * Render the layout
+     *
      * @param string $modName
      * @return mixed|string
      */
     public function render($modName = "")
     {
-        $html = Module::create($modName)->render();
+        // Connecting the navbar
+        $marker["%MOD_NAVBAR%"] = $this->navbar();
 
-        $marker["%MODULE%"] = $html;
+        // Creating and rendering the requested module
+        $marker["%MODULE%"] = Module::create($modName)->render();
 
         return $this->Template->parse($marker);
+    }
+
+
+    /**
+     * Task to create the navbar
+     *
+     * @return mixed|string
+     */
+    private function navbar()
+    {
+        $partial = Template::load(__CLASS__, "navbar.html");
+        return $partial->parse();
     }
 }

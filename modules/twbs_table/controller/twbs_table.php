@@ -64,7 +64,7 @@ class TwbsTable extends Module
          * Or get an extra template file for the supart.
          */
         $markerString = "%TMPL_ROWS%";
-        $partial = Template::load("makeup/modules/twbs_table/view/twbs_table_row.html");
+        $partial = Template::load(__CLASS__, "twbs_table_row.html");
         $marker[$markerString] = "";
 
         // Iterate with getItem() thru the data that the service provides.

@@ -30,10 +30,10 @@ abstract class Module
 
         $this->RQ = Tools::parseQueryString();
 
-        if ($moduleFileName == "app")
-            $this->Template = Template::load("makeup/app/view/app.html");
+        if ($className == "App")
+            $this->Template = Template::load("App", "app.html");
         else
-            $this->Template = Template::load("makeup/modules/$moduleFileName/view/$moduleFileName.html");
+            $this->Template = Template::load($className, "$moduleFileName.html");
     }
 
 
