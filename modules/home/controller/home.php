@@ -32,7 +32,7 @@ class Home extends Module
         $marker["%CODE%"] = htmlspecialchars('<?php
 require_once(\'makeup/app/controller/app.php\');
 $App = new makeup\app\controller\App();
-echo $App->execute();');
+$App->execute();');
 
         return $this->Template->parse($marker);
     }

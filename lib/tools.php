@@ -29,6 +29,14 @@ class Tools
                     $varArr[$parts[0]] = "";
             }
         }
+
+        // Parameters "mod" and "task" are always required!
+        if (!isset($varArr["mod"]))
+            $varArr["mod"] = "";
+
+        if (!isset($varArr["task"]))
+            $varArr["task"] = "render";
+
         return $varArr;
     }
 
@@ -67,7 +75,7 @@ class Tools
      */
     public static function errorMessage($msg)
     {
-        return '<span class="error_message">' . $msg . '</span>';
+        return '<span style="font-size: 12px; font-weight: bold; color: red;">' . $msg . '</span>';
     }
 
 

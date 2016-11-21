@@ -24,15 +24,13 @@ class Layout extends Module
 
     /**
      * @param string $modName
-     * @param string $task
      * @return mixed|string
      */
-    public function render($modName = "", $task = "render")
+    public function render($modName = "")
     {
-        $Module = Module::create($modName); // The factory pattern returns an object of a module.
-        $html = $Module->$task(); // The module executes the requested task.
+        $html = Module::create($modName)->render();
 
-        $marker["%MODULE%"] = !$html || $modName == "layout" ? "" : $html;
+        $marker["%MODULE%"] = $html;
 
         return $this->Template->parse($marker);
     }

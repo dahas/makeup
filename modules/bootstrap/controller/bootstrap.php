@@ -31,4 +31,15 @@ class Bootstrap extends Module
 
         return $this->Template->parse($marker);
     }
+
+
+    /**
+     * A simple task.
+     *
+     * @return mixed|string
+     */
+    public function helloWorld()
+    {
+        return "Hello World!";
+    }
 }

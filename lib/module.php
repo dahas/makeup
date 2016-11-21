@@ -15,7 +15,7 @@ abstract class Module
 
     protected $Template = null;
 
-    protected $_get = array();
+    protected $RQ = array();
 
     protected $config = array();
 
@@ -28,7 +28,7 @@ abstract class Module
 
         Config::init($moduleFileName); // Loads config.ini
 
-        $this->_get = Tools::parseQueryString();
+        $this->RQ = Tools::parseQueryString();
 
         if ($moduleFileName == "app")
             $this->Template = Template::load("makeup/app/view/app.html");
@@ -72,6 +72,11 @@ abstract class Module
     }
 
 
+    /**
+     * Returns the rendered HTML.
+     *
+     * @return mixed
+     */
     abstract public function render();
 
 
