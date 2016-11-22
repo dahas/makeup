@@ -23,7 +23,7 @@ class Layout extends Module
 
 
     /**
-     * Render the layout
+     * Task that renders the layout
      *
      * @param string $modName
      * @return mixed|string
@@ -45,7 +45,7 @@ class Layout extends Module
      *
      * @return mixed|string
      */
-    private function navbar()
+    public function navbar()
     {
         $partial = Template::load(__CLASS__, "navbar.html");
         return $partial->parse();
