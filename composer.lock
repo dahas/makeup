@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "713e7dab6f5281bf294b08c966b789d8",
-    "content-hash": "67bb16c760d919f06dc2fc4f57e097e8",
+    "hash": "201e0b37713620ea4eb8d70bae4b8cc6",
+    "content-hash": "578a1e4a9bd553c13d1dea1a2c58eab4",
     "packages": [
         {
             "name": "components/font-awesome",
