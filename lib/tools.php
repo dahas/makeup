@@ -110,4 +110,26 @@ class Tools
         return strtolower(preg_replace('/(?<!^)[A-Z]+/', '_$0', $input));
     }
 
+
+    /**
+     * Works almost like "array_replace_recursive()" but it ignores empty values
+     *
+     * @param $array1
+     * @param $array2
+     * @return mixed
+     */
+    public static function arrayReplace($array1, $array2)
+    {
+        foreach ($array2 as $key => $val) {
+            if (!is_array($val) && $val) {
+                $array1[$key] = $val;
+            } elseif (isset($array1[$key]) && is_array($val)) {
+                $array1[$key] = self::arrayReplace($array1[$key], $val);
+            } elseif (!isset($array1[$key])) {
+                $array1[$key] = $array2[$key];
+            }
+        }
+        return $array1;
+    }
+
 }

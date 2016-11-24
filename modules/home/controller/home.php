@@ -34,6 +34,6 @@ require_once(\'makeup/app/controller/app.php\');
 $App = new makeup\app\controller\App();
 $App->execute();');
 
-        return $this->Template->parse($marker);
+        return $this->getTemplate()->parse($marker);
     }
 }

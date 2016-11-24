@@ -34,9 +34,9 @@ class Layout extends Module
         $marker["%MOD_NAVBAR%"] = $this->navbar();
 
         // Creating and rendering the requested module
-        $marker["%MODULE%"] = Module::create($modName)->render();
+        $marker["%MODULE%"] = Module::create($modName)->secureRender();
 
-        return $this->Template->parse($marker);
+        return $this->getTemplate()->parse($marker);
     }
 
 

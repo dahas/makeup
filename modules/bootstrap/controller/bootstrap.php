@@ -1,7 +1,6 @@
 <?php
 
 use makeup\lib\Module;
-use makeup\lib\Config;
 
 
 /**
@@ -27,9 +26,13 @@ class Bootstrap extends Module
      */
     public function render()
     {
-        $marker["%MOD_TWBS_TABLE%"] = Module::create("twbs_table")->render();
+        /**
+         * secureRender() takes care of the setting "mod_settings|protected". If protected is
+         * set to 1 and the user isn´t logged in, the module won´t be rendered.
+         */
+        $marker["%MOD_TWBS_TABLE%"] = Module::create("twbs_table")->secureRender();
 
-        return $this->Template->parse($marker);
+        return $this->getTemplate()->parse($marker);
     }
 
 

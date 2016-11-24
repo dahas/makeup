@@ -13,7 +13,7 @@ abstract class Module
 {
     protected $resFolder = "makeup/app/res";
 
-    protected $Template = null;
+    private $Template = null;
 
     protected $RQ = array();
 
@@ -81,13 +81,34 @@ abstract class Module
 
 
     /**
+     * Takes care of the setting "mod_settings|protected". If protected is
+     * set to 1 and the user isn´t logged in, the module won´t be rendered.
+     *
+     * @return mixed|void
+     */
+    public function secureRender()
+    {
+        if(Config::get("mod_settings|protected") == "1" && (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+            return null;
+        else
+            return $this->render();
+    }
+
+
+    public function getTemplate()
+    {
+        return $this->Template;
+    }
+
+
+    /**
      * @param $method
      * @param $args
      * @return string
      */
     public function __call($method, $args)
     {
-        return Tools::errorMessage("Method $method() not defined!");
+        return Tools::errorMessage("Task $method() not defined!");
     }
 
 

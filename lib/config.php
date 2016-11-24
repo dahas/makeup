@@ -10,20 +10,34 @@ class Config
 
     public static function init($moduleFileName = "App")
     {
-        $appConfig = parse_ini_file("makeup/app/config/app.ini", true);
-        $appConfig['additional_css_files']['css'] = self::setAppCssFilesPath($appConfig);
-        $appConfig['additional_js_files_head']['js'] = self::setAppJsFilesHeadPath($appConfig);
-        $appConfig['additional_js_files_body']['js'] = self::setAppJsFilesBodyPath($appConfig);
+        if (empty(self::$config)) {
+            $appConfig = parse_ini_file("makeup/app/config/app.ini", true);
+            $appConfig['additional_css_files']['css'] = self::setAppCssFilesPath($appConfig);
+            $appConfig['additional_js_files_head']['js'] = self::setAppJsFilesHeadPath($appConfig);
+            $appConfig['additional_js_files_body']['js'] = self::setAppJsFilesBodyPath($appConfig);
+        } else {
+            $appConfig = self::$config;
+        }
+
 
         if (file_exists("makeup/modules/$moduleFileName/config/$moduleFileName.ini")) {
             $modConfig = parse_ini_file("makeup/modules/$moduleFileName/config/$moduleFileName.ini", true);
             $modConfig['additional_css_files']['css'] = self::setModCssFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_body']['js'] = self::setModJsFilesBodyPath($modConfig, $moduleFileName);
-            $appConfig = array_merge_recursive($appConfig, $modConfig);
+            $appConfig = Tools::arrayReplace($appConfig, $modConfig);
         }
 
         self::$config = $appConfig;
+    }
+
+
+    /**
+     * @return array
+     */
+    public static function getConfig()
+    {
+        return self::$config;
     }
 
 
@@ -38,15 +52,16 @@ class Config
             $entryItem = "";
 
             if (count($entries) == 1)
-                $entryItem = self::$config[$entries[0]];
+                $entryItem = isset(self::$config[$entries[0]]) ? self::$config[$entries[0]] : null;
 
             if (count($entries) == 2)
-                $entryItem = self::$config[$entries[0]][$entries[1]];
+                $entryItem = isset(self::$config[$entries[0]][$entries[1]]) ? self::$config[$entries[0]][$entries[1]] : null;
 
             if (count($entries) == 3)
-                $entryItem = self::$config[$entries[0]][$entries[1]][$entries[2]];
+                $entryItem = isset(self::$config[$entries[0]][$entries[1]][$entries[2]]) ? self::$config[$entries[0]][$entries[1]][$entries[2]] : null;
 
-            return is_array($entryItem) ? array_pop($entryItem) : $entryItem;
+            #return is_array($entryItem) ? array_pop($entryItem) : $entryItem;
+            return $entryItem;
         } else {
             return self::$config;
         }
