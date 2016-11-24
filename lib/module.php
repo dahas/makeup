@@ -11,8 +11,6 @@ use DI\ContainerBuilder;
  */
 abstract class Module
 {
-    protected $resFolder = "makeup/app/res";
-
     private $Template = null;
 
     protected $RQ = array();
@@ -38,8 +36,8 @@ abstract class Module
 
 
     /**
-     * @return object
-     * @throws exception
+     * @return ErrorMod|mixed
+     * @throws \Exception
      */
     public static function create()
     {
@@ -51,7 +49,7 @@ abstract class Module
 
         // First argument must be the module name:
         if (!isset($args[0]) || $types[0] != "string" || !$args[0]) {
-            throw new exception('Not a valid classname!');
+            throw new \Exception('Not a valid classname!');
         } else {
             $name = $args[0];
             $className = Tools::upperCamelCase($name);
@@ -95,6 +93,11 @@ abstract class Module
     }
 
 
+    /**
+     * Returns the template object
+     *
+     * @return Template|null
+     */
     public function getTemplate()
     {
         return $this->Template;
@@ -139,5 +142,10 @@ class ErrorMod
     public function render()
     {
         return Tools::errorMessage("Module '$this->modName' not found!");
+    }
+
+    public function secureRender()
+    {
+        return self::render();
     }
 }
