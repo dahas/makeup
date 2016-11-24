@@ -1,6 +1,7 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
-    <h1>makeUp</h1>
+    <img src="/makeup/modules/home/res/img/logo.svg" width="25%" class="pull-right"/>
+    <h1 class="bold"><span style="color: #777;">make</span><span style="color: #999;">Up</span></h1>
     <p>A package for proper web development.</p>
 </div>
 
@@ -25,16 +26,15 @@
                 <div class="page-header">
                     <h1>Requirements</h1>
                 </div>
-                <p>In order to get <b class="italic">makeUp</b> to work, you need PHP 5.4 or above, a MySQL database and a local webserver. If
-                    you have installed <b>Xampp</b> or something similar you are already set up.
-                    Also you need <b>Git</b> and <b>Composer</b> available in your environment.</p>
+                <p>In order to get <b class="italic">makeUp</b> to work, you need PHP 5.6 or above, a MySQL database and a local webserver. If
+                    you have installed <b>Xampp</b> lately (or something similar) you should already be set up.</p>
                 <p><a class="btn btn-default" href="#" role="button">Read more ...</a></p>
             </div>
             <div class="col-xs-4 col-lg-4">
                 <div class="page-header">
                     <h1>Download</h1>
                 </div>
-                <p>Download <b class="italic">makeUp</b> from <a href="https://github.com/dahas/makeup" target="_blank">GitHub</a>. Or make a
+                <p>Either download <b class="italic">makeUp</b> from <a href="https://github.com/dahas/makeup" target="_blank">GitHub</a>, or make a
                     clone: <br/>
                 <pre>$ git clone https://github.com/dahas/makeup.git</pre>
                 </p>
@@ -46,19 +46,18 @@
                 </div>
                 <p>
                 <ol>
-                    <li><a href="https://github.com/dahas/makeup" target="_blank">Download</a> and unpack the source
-                        files into the root folder of your project.
+                    <li>The source files must be in a folder named "makeup", that is within the root directory of your project.
                     </li>
                     <li>Install dependent libraries<br/>
                         <pre>$ cd makeup
-$ composer install</pre>
+$ php composer.phar install</pre>
                     </li>
                     <li>
-                        Create file index.php in your root folder. Paste the following code into it:
+                        Create file index.php in your root folder. Paste the following lines into it:
                         <pre>%CODE%</pre>
                     </li>
                     <li>
-                        Launch app in your web browser.
+                        Launch your app in the web browser.
                     </li>
                 </ol>
                 </p>
@@ -70,10 +69,10 @@ $ composer install</pre>
                 </div>
                 <p>
                 <ul>
-                    <li><a href="#">Learn how to modify the app.</a></li>
+                    <li><a href="#">Learn how to modify your app.</a></li>
                     <li><a href="#">Learn how to create your own modules.</a></li>
                     <li><a href="#">Learn how to create and inject services.</a></li>
-                    <li><a href="#">Learn about security and how to protect your content.</a></li>
+                    <li><a href="#">Learn about security and how to protect the content.</a></li>
                 </ul>
                 </p>
             </div>

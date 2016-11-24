@@ -4,14 +4,22 @@ A package for proper web development.
 ## Requirements
 PHP 5.6 or above, MySQL
 
-## Installation
-- Create a folder for your project.
-- Clone the sources from the repossitory: 
+## Download
+
+Either download or clone the sources from the Git repository: 
 <pre>$ git clone https://github.com/dahas/makeup.git</pre>
-- Make sure you have a folder named "makeup" in your project root.
+
+## Installation
+- The source files must be in a folder named "makeup", that is within the root directory of your project. 
 - Install dependent libraries: 
 <pre>$ cd makeup 
 $ php composer.phar install</pre>
+- Create file "index.php" in your root directory. Paste the following lines into it:
+<pre>&lt;?php
+require_once('makeup/app/controller/app.php');
+$App = new makeup\app\controller\App();
+$App->execute();</pre>
+- Launch your app in the webbrowser
 
 ## Author 
 Martin Wolf

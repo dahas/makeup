@@ -46,7 +46,7 @@ class TwbsTable extends Module
          * Get a supart of the template like this and treat it like a template.
          */
         $spMarkerString = "%SUBPART_ROWS%";
-        $subpart = $this->Template->getSubpart($spMarkerString);
+        $subpart = $this->getTemplate()->getSubpart($spMarkerString);
         $spMarker[$spMarkerString] = "";
 
         // Iterate with getItem() thru the data that the service provides.
@@ -78,6 +78,6 @@ class TwbsTable extends Module
             ]);
         }
 
-        return $this->Template->parse($marker, $spMarker);
+        return $this->getTemplate()->parse($marker, $spMarker);
     }
 }

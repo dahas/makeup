@@ -46,7 +46,7 @@ class App extends Module
 
 
     /**
-     * Run the app and display its content.
+     * Run and output the app.
      *
      * @return mixed|string
      */
@@ -56,8 +56,8 @@ class App extends Module
         $task = $this->RQ['task']; // Parameter "task" is required, so that the module knows, which task to execute.
 
         /**
-         * Parameter "nowrap" displays a module with its own template only.
-         * No other HTML (neither app nor layout template) is wrapped around it.
+         * With parameter "nowrap" a module is rendered with its own template only.
+         * No other HTML (neither app nor layout) is wrapped around it.
          */
         if (isset($this->RQ['nowrap']) || $task != "render") {
             $appHtml = Module::create($modName)->$task();
