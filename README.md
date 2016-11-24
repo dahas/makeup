@@ -22,7 +22,7 @@ $App->execute();</pre>
 - Launch your app in the webbrowser
 
 ## Author 
-Martin Wolf
+Martin J. Wolf
 
 ## License
 MIT
