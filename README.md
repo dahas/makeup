@@ -15,7 +15,7 @@ PHP 5.6 or above, MySQL
 Either download or clone the sources from the Git repository: 
 <pre>$ git clone https://github.com/dahas/makeup.git</pre>
 
-## Installation
+## Get started
 - The source files must be in a folder named "makeup" within the root directory of your project. 
 - Install dependent libraries: 
 <pre>$ cd makeup 
