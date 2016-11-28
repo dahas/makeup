@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="%CONFIG_LANG%">
     <head>
         <meta charset="%CONFIG_CHARSET%">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- %CONF_HTTP_EQUIV% begin -->
+        <meta http-equiv="%HTTP_EQUIV%" content="%CONTENT%"><!-- %CONF_HTTP_EQUIV% end -->
         <!-- %CONF_METATAGS% begin -->
         <meta name="%NAME%" content="%CONTENT%"><!-- %CONF_METATAGS% end -->
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
         <title>%CONFIG_TITLE%</title>
 
         <!-- Bootstrap -->
@@ -19,7 +20,6 @@
         <!-- %CONF_JS_FILES_HEAD% end -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
         <script src="makeup/res/js/html5shiv.min.js"></script>
         <script src="makeup/res/js/respond.min.js"></script>

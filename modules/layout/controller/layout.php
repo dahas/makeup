@@ -2,6 +2,7 @@
 
 use makeup\lib\Module;
 use makeup\lib\Template;
+use makeup\lib\Config;
 
 
 /**
@@ -32,6 +33,11 @@ class Layout extends Module
     {
         // Connecting the navbar
         $marker["%MOD_NAVBAR%"] = $this->navbar();
+
+        // Get the configuration settings of a specific module
+        $modConf = Config::getFromModule($modName);
+
+        $marker["%PAGE_TITLE%"] = $modConf['page_settings']['subtitle'];
 
         // Creating and rendering the requested module
         $marker["%MODULE%"] = Module::create($modName)->secureRender();

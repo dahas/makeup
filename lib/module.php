@@ -4,38 +4,38 @@ namespace makeup\lib;
 
 use DI\ContainerBuilder;
 
-
 /**
  * Abstract Class Module
+ * 
  * @package makeup\lib\interfaces
  */
 abstract class Module
 {
+
     private $Template = null;
 
     protected $RQ = array();
 
     protected $config = array();
 
-
     public function __construct()
     {
         $modNsArr = explode("\\", get_class($this));
         $className = array_pop($modNsArr);
         $moduleFileName = Tools::camelCaseToUnderscore($className);
-
+        
         Config::init($moduleFileName); // Loads config.ini
-
+        
         $this->RQ = Tools::parseQueryString();
-
+        
         if ($className == "App")
             $this->Template = Template::load("App", "app.html");
         else
             $this->Template = Template::load($className, "$moduleFileName.html");
     }
 
-
     /**
+     *
      * @return ErrorMod|mixed
      * @throws \Exception
      */
@@ -46,17 +46,17 @@ abstract class Module
         foreach ($args as $arg) {
             $types[] = gettype($arg);
         }
-
+        
         // First argument must be the module name:
-        if (!isset($args[0]) || $types[0] != "string" || !$args[0]) {
+        if (! isset($args[0]) || $types[0] != "string" || ! $args[0]) {
             throw new \Exception('Not a valid classname!');
         } else {
             $name = $args[0];
             $className = Tools::upperCamelCase($name);
         }
-
+        
         $modFile = "makeup/modules/$name/controller/$name.php";
-
+        
         if (is_file($modFile)) {
             $builder = new ContainerBuilder();
             $builder->useAutowiring(false);
@@ -69,6 +69,44 @@ abstract class Module
         }
     }
 
+    /**
+     * Run and output the app.
+     *
+     * @return mixed|string
+     */
+    public function execute()
+    {
+        $modName = $this->RQ['mod']; // Parameter "mod" is the required module name.
+        $task = $this->RQ['task']; // Parameter "task" is required, so that the module knows, which task to execute.
+        
+        /**
+         * With parameter "nowrap" a module is rendered with its own template only.
+         * No other HTML (neither app nor layout) is wrapped around it.
+         */
+        if (isset($this->RQ['nowrap']) || $task != "render") {
+            $appHtml = Module::create($modName)->$task();
+        } else {
+            /**
+             * The app will be renderd, if it is NOT protected.
+             * Or if it is protected and the user is signed in.
+             */
+            $appHtml = $this->render($modName);
+        }
+        
+        /**
+         * Deny access to a protected page as long as the user isn´t signed in.
+         */
+        if (Config::get("page_settings|protected") == "1" && (! isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+            die("Access denied!");
+        
+        /**
+         * Deny access to the whole app as long as the user isn´t signed in.
+         */
+        if (Config::get("app_settings|protected") == "1" && (! isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+            die("Access denied!");
+        
+        die($appHtml);
+    }
 
     /**
      * Returns the rendered HTML.
@@ -77,21 +115,20 @@ abstract class Module
      */
     abstract public function render();
 
-
     /**
-     * Takes care of the setting "mod_settings|protected". If protected is
+     * Takes care of the setting "mod_settings|protected".
+     * If protected is
      * set to 1 and the user isn´t logged in, the module won´t be rendered.
      *
      * @return mixed|void
      */
     public function secureRender()
     {
-        if(Config::get("mod_settings|protected") == "1" && (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+        if (Config::get("mod_settings|protected") == "1" && (! isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
             return null;
         else
             return $this->render();
     }
-
 
     /**
      * Returns the template object
@@ -103,17 +140,18 @@ abstract class Module
         return $this->Template;
     }
 
-
     /**
-     * @param $method
-     * @param $args
+     *
+     * @param
+     *            $method
+     * @param
+     *            $args
      * @return string
      */
     public function __call($method, $args)
     {
         return Tools::errorMessage("Task $method() not defined!");
     }
-
 
     /**
      * Destructor
@@ -125,13 +163,14 @@ abstract class Module
     }
 }
 
-
 /**
  * Class ErrorMod
+ * 
  * @package makeup\lib
  */
 class ErrorMod
 {
+
     private $modName = "";
 
     public function __construct($modName)

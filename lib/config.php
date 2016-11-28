@@ -35,9 +35,9 @@ class Config
     /**
      * @return array
      */
-    public static function getConfig()
+    public static function getFromModule($modName)
     {
-        return self::$config;
+        return parse_ini_file("makeup/modules/$modName/config/$modName.ini", true);;
     }
 
 
@@ -45,26 +45,22 @@ class Config
      * @param $entry
      * @return mixedy
      */
-    public static function get($entry="")
+    public static function get()
     {
-        if ($entry) {
-            $entries = explode("|", $entry);
-            $entryItem = "";
+        $args = func_get_args();
+        if ($args) {
+            if (count($args) == 1)
+                $arg = isset(self::$config[$args[0]]) ? self::$config[$args[0]] : null;
 
-            if (count($entries) == 1)
-                $entryItem = isset(self::$config[$entries[0]]) ? self::$config[$entries[0]] : null;
+            if (count($args) == 2)
+                $arg = isset(self::$config[$args[0]][$args[1]]) ? self::$config[$args[0]][$args[1]] : null;
 
-            if (count($entries) == 2)
-                $entryItem = isset(self::$config[$entries[0]][$entries[1]]) ? self::$config[$entries[0]][$entries[1]] : null;
+            if (count($args) == 3)
+                $arg = isset(self::$config[$args[0]][$args[1]][$args[2]]) ? self::$config[$args[0]][$args[1]][$args[2]] : null;
 
-            if (count($entries) == 3)
-                $entryItem = isset(self::$config[$entries[0]][$entries[1]][$entries[2]]) ? self::$config[$entries[0]][$entries[1]][$entries[2]] : null;
-
-            #return is_array($entryItem) ? array_pop($entryItem) : $entryItem;
-            return $entryItem;
-        } else {
-            return self::$config;
-        }
+            return $arg;
+        } 
+        return null;
     }
 
 
