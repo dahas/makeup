@@ -12,7 +12,8 @@ class Config
     {
         if (empty(self::$config)) {
             $appConfig = parse_ini_file("makeup/app/config/app.ini", true);
-            $appConfig['additional_css_files']['css'] = self::setAppCssFilesPath($appConfig);
+            $appConfig['additional_css_files']['screen'] = self::setAppCssScreenFilesPath($appConfig);
+            $appConfig['additional_css_files']['print'] = self::setAppCssPrintFilesPath($appConfig);
             $appConfig['additional_js_files_head']['js'] = self::setAppJsFilesHeadPath($appConfig);
             $appConfig['additional_js_files_body']['js'] = self::setAppJsFilesBodyPath($appConfig);
         } else {
@@ -22,7 +23,8 @@ class Config
 
         if (file_exists("makeup/modules/$moduleFileName/config/$moduleFileName.ini")) {
             $modConfig = parse_ini_file("makeup/modules/$moduleFileName/config/$moduleFileName.ini", true);
-            $modConfig['additional_css_files']['css'] = self::setModCssFilesPath($modConfig, $moduleFileName);
+            $modConfig['additional_css_files']['screen'] = self::setModCssScreenFilesPath($modConfig, $moduleFileName);
+            $modConfig['additional_css_files']['print'] = self::setModCssPrintFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_body']['js'] = self::setModJsFilesBodyPath($modConfig, $moduleFileName);
             $appConfig = Tools::arrayReplace($appConfig, $modConfig);
@@ -128,11 +130,27 @@ class Config
      * @param $config
      * @return array
      */
-    private static function setAppCssFilesPath($config)
+    private static function setAppCssScreenFilesPath($config)
     {
-        if (isset($config['additional_css_files']['css'][0]) && $config['additional_css_files']['css'][0]) {
+        if (isset($config['additional_css_files']['screen'][0]) && $config['additional_css_files']['screen'][0]) {
             $newPath = [];
-            foreach ($config['additional_css_files']['css'] as $file) {
+            foreach ($config['additional_css_files']['screen'] as $file) {
+                $newPath[] = "makeup/app/res/css/$file";
+            }
+            return $newPath;
+        }
+    }
+
+
+    /**
+     * @param $config
+     * @return array
+     */
+    private static function setAppCssPrintFilesPath($config)
+    {
+        if (isset($config['additional_css_files']['print'][0]) && $config['additional_css_files']['print'][0]) {
+            $newPath = [];
+            foreach ($config['additional_css_files']['print'] as $file) {
                 $newPath[] = "makeup/app/res/css/$file";
             }
             return $newPath;
@@ -177,11 +195,28 @@ class Config
      * @param $mod
      * @return array
      */
-    private static function setModCssFilesPath($config, $mod)
+    private static function setModCssScreenFilesPath($config, $mod)
     {
-        if (isset($config['additional_css_files']['css'][0]) && $config['additional_css_files']['css'][0]) {
+        if (isset($config['additional_css_files']['screen'][0]) && $config['additional_css_files']['screen'][0]) {
             $newPath = [];
-            foreach ($config['additional_css_files']['css'] as $file) {
+            foreach ($config['additional_css_files']['screen'] as $file) {
+                $newPath[] = "makeup/modules/$mod/res/css/$file";
+            }
+            return $newPath;
+        }
+    }
+
+
+    /**
+     * @param $config
+     * @param $mod
+     * @return array
+     */
+    private static function setModCssPrintFilesPath($config, $mod)
+    {
+        if (isset($config['additional_css_files']['print'][0]) && $config['additional_css_files']['print'][0]) {
+            $newPath = [];
+            foreach ($config['additional_css_files']['print'] as $file) {
                 $newPath[] = "makeup/modules/$mod/res/css/$file";
             }
             return $newPath;

@@ -76,18 +76,17 @@ abstract class Module
 	 * @return mixed
 	 */
 	abstract public function render();
-
-
 	/**
 	 * Takes care of the setting "mod_settings|protected".
-	 * If protected is
-	 * set to 1 and the user isn´t logged in, the module won´t be rendered.
+	 * If protected is set to 1 and the user isn´t logged in, 
+	 * the module won´t be rendered.
 	 *
 	 * @return mixed|void
 	 */
 	public function secureRender()
 	{
-		if (Config::get("mod_settings|protected") == "1" && (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+		if (Config::get("mod_settings|protected") == "1" 
+			&& (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
 			return null;
 		else
 			return $this->render();
@@ -128,6 +127,7 @@ abstract class Module
 		unset($this);
 	}
 
+
 }
 
 
@@ -158,4 +158,6 @@ class ErrorMod
 		return self::render();
 	}
 
+
 }
+

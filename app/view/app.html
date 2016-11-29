@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="%CONFIG_LANG%">
     <head>
-        <meta charset="%CONFIG_CHARSET%">
-        <!-- %CONF_HTTP_EQUIV% begin -->
-        <meta http-equiv="%HTTP_EQUIV%" content="%CONTENT%"><!-- %CONF_HTTP_EQUIV% end -->
-        <!-- %CONF_METATAGS% begin -->
-        <meta name="%NAME%" content="%CONTENT%"><!-- %CONF_METATAGS% end -->
-
-        <title>%CONFIG_TITLE%</title>
+        %CONF_METATAGS%
+        
+        %TITLE%
 
         <!-- Bootstrap -->
         <link rel="stylesheet" href="makeup/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="makeup/vendor/components/font-awesome/css/font-awesome.min.css">
-        <!-- %CONF_CSS_FILES% begin -->
-        <link href="%FILE%" rel="stylesheet"><!-- %CONF_CSS_FILES% end -->
+        
+        %CONF_CSS_FILES%
 
         <!-- %CONF_JS_FILES_HEAD% begin -->
         <script type="text/javascript" src="%FILE%"></script>
@@ -25,7 +21,7 @@
         <script src="makeup/res/js/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body<!-- %BODY_ONLOAD% begin --> onload="%ONLOAD%"<!-- %BODY_ONLOAD% end -->>
+    <body>
         %LAYOUT%
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="makeup/vendor/components/jquery/jquery.min.js"></script>

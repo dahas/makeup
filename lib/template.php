@@ -9,149 +9,224 @@ namespace makeup\lib;
  */
 class Template
 {
-    private $html = "";
+	private $html = "";
 
-    public function __construct($file = '')
-    {
-        if ($file)
-            $this->loadFile($file);
-    }
 
-    /**
-     * @param $modName
-     * @param $templateFile
-     * @return Template
-     */
-    public static function load($modName, $templateFile)
-    {
-        $modName = Tools::camelCaseToUnderscore($modName);
+	public function __construct($file = '')
+	{
+		if ($file)
+			$this->loadFile($file);
+	}
 
-        if ($modName == "app")
-            $file = "makeup/$modName/view/$templateFile";
-        else
-            $file = "makeup/modules/$modName/view/$templateFile";
 
-        return new Template($file);
-    }
+	/**
+	 * @param $modName
+	 * @param $templateFile
+	 * @return Template
+	 */
+	public static function load($modName, $templateFile)
+	{
+		$modName = Tools::camelCaseToUnderscore($modName);
 
-    /**
-     * @param $html
-     * @return Template
-     */
-    public static function html($html)
-    {
-        $tmpl = new Template();
-        $tmpl->html = $html;
-        return $tmpl;
-    }
+		if ($modName == "app")
+			$file = "makeup/$modName/view/$templateFile";
+		else
+			$file = "makeup/modules/$modName/view/$templateFile";
 
-    private function loadFile($file = '')
-    {
-        if (is_file($file))
-            $this->html = file_get_contents($file);
-        else
-            $this->html = Tools::errorMessage("No valid template file: $file");
-    }
+		return new Template($file);
+	}
 
-    public function getSubpart($marker)
-    {
-        $start = strpos($this->html, $marker);
-        if ($start === false) {
-            return '';
-        }
-        $start += strlen($marker);
-        $stop = strpos($this->html, $marker, $start);
-        if ($stop === false) {
-            return '';
-        }
-        $html = substr($this->html, $start, $stop - $start);
 
-        $matches = array();
-        if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $html, $matches) === 1 || preg_match('/^([^\<]*\-\-\>)(.*)$/s', $html, $matches) === 1) {
-            return self::html($matches[2]);
-        }
-        $matches = array();
-        if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $html, $matches) === 1) {
-            return self::html($matches[1]);
-        }
-        return self::html($html);
-    }
+	/**
+	 * @param $html
+	 * @return Template
+	 */
+	public static function html($html)
+	{
+		$tmpl = new Template();
+		$tmpl->html = $html;
+		return $tmpl;
+	}
 
-    private function replaceMarker($html, $markerArr)
-    {
-        foreach ($markerArr as $key => $val) {
-            $html = str_replace($key, $val, $html);
-        }
-        return $html;
-    }
 
-    private function replaceSubpart($html, $subpartArr)
-    {
-        foreach ($subpartArr as $key => $val) {
-            $html = self::trimSubpart($html, $key, $val);
-        }
-        return $html;
-    }
+	private function loadFile($file = '')
+	{
+		if (is_file($file))
+			$this->html = file_get_contents($file);
+		else
+			$this->html = Tools::errorMessage("No valid template file: $file");
+	}
 
-    private static function trimSubpart($html, $marker, $subpart, $recursive = 1)
-    {
-        $start = strpos($html, $marker);
-        if ($start === false) {
-            return $html;
-        }
-        $startAM = $start + strlen($marker);
-        $stop = strpos($html, $marker, $startAM);
-        if ($stop === false) {
-            return $html;
-        }
-        $stopAM = $stop + strlen($marker);
-        $before = substr($html, 0, $start);
-        $after = substr($html, $stopAM);
-        $between = substr($html, $startAM, $stop - $startAM);
-        if ($recursive) {
-            $after = self::trimSubpart($after, $marker, $subpart, $recursive);
-        }
-        $matches = array();
-        if (preg_match('/^(.*)\<\!\-\-[^\>]*$/s', $before, $matches) === 1) {
-            $before = $matches[1];
-        }
-        if (is_array($subpart)) {
-            $matches = array();
-            if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $between, $matches) === 1) {
-                $between = $matches[2];
-            } elseif (preg_match('/^(.*)(\<\!\-\-[^\>]*)$/s', $between, $matches) === 1) {
-                $between = $matches[1];
-            } elseif (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $between, $matches) === 1) {
-                $between = $matches[2];
-            }
-        }
-        $matches = array();
-        if (preg_match('/^[^\<]*\-\-\>(.*)$/s', $after, $matches) === 1) {
-            $after = $matches[1];
-        }
-        if (is_array($subpart)) {
-            $between = $subpart[0] . $between . $subpart[1];
-        } else {
-            $between = $subpart;
-        }
-        return $before . $between . $after;
-    }
 
-    public function parse($markerArr = array(), $subpartArr = array())
-    {
-        $html = $this->html;
-        if (!empty($markerArr)) {
-            $html = $this->replaceMarker($html, $markerArr);
-        }
-        if (!empty($subpartArr)) {
-            $html = $this->replaceSubpart($html, $subpartArr);
-        }
-        return $html;
-    }
+	public function getSubpart($marker)
+	{
+		$start = strpos($this->html, $marker);
+		if ($start === false) {
+			return '';
+		}
+		$start += strlen($marker);
+		$stop = strpos($this->html, $marker, $start);
+		if ($stop === false) {
+			return '';
+		}
+		$html = substr($this->html, $start, $stop - $start);
 
-    public static function replaceBodyTag($bt, $tmpl)
-    {
-        return $tmpl = str_replace("<body>", $bt, $tmpl);
-    }
+		$matches = array();
+		if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $html, $matches) === 1 || preg_match('/^([^\<]*\-\-\>)(.*)$/s', $html, $matches) === 1) {
+			return self::html($matches[2]);
+		}
+		$matches = array();
+		if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $html, $matches) === 1) {
+			return self::html($matches[1]);
+		}
+		return self::html($html);
+	}
+
+
+	private function replaceMarker($html, $markerArr)
+	{
+		foreach ($markerArr as $key => $val) {
+			$html = str_replace($key, $val, $html);
+		}
+		return $html;
+	}
+
+
+	private function replaceSubpart($html, $subpartArr)
+	{
+		foreach ($subpartArr as $key => $val) {
+			$html = self::trimSubpart($html, $key, $val);
+		}
+		return $html;
+	}
+
+
+	private static function trimSubpart($html, $marker, $subpart, $recursive = 1)
+	{
+		$start = strpos($html, $marker);
+		if ($start === false) {
+			return $html;
+		}
+		$startAM = $start + strlen($marker);
+		$stop = strpos($html, $marker, $startAM);
+		if ($stop === false) {
+			return $html;
+		}
+		$stopAM = $stop + strlen($marker);
+		$before = substr($html, 0, $start);
+		$after = substr($html, $stopAM);
+		$between = substr($html, $startAM, $stop - $startAM);
+		if ($recursive) {
+			$after = self::trimSubpart($after, $marker, $subpart, $recursive);
+		}
+		$matches = array();
+		if (preg_match('/^(.*)\<\!\-\-[^\>]*$/s', $before, $matches) === 1) {
+			$before = $matches[1];
+		}
+		if (is_array($subpart)) {
+			$matches = array();
+			if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $between, $matches) === 1) {
+				$between = $matches[2];
+			} elseif (preg_match('/^(.*)(\<\!\-\-[^\>]*)$/s', $between, $matches) === 1) {
+				$between = $matches[1];
+			} elseif (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $between, $matches) === 1) {
+				$between = $matches[2];
+			}
+		}
+		$matches = array();
+		if (preg_match('/^[^\<]*\-\-\>(.*)$/s', $after, $matches) === 1) {
+			$after = $matches[1];
+		}
+		if (is_array($subpart)) {
+			$between = $subpart[0] . $between . $subpart[1];
+		} else {
+			$between = $subpart;
+		}
+		return $before . $between . $after;
+	}
+
+
+	public function parse($markerArr = array(), $subpartArr = array())
+	{
+		$html = $this->html;
+		if (!empty($markerArr)) {
+			$html = $this->replaceMarker($html, $markerArr);
+		}
+		if (!empty($subpartArr)) {
+			$html = $this->replaceSubpart($html, $subpartArr);
+		}
+		return $html;
+	}
+
+
+	public static function replaceBodyTag($bt, $tmpl)
+	{
+		return $tmpl = str_replace("<body>", $bt, $tmpl);
+	}
+	
+	
+	/**
+	 * Creates meta tags
+	 * 
+	 * @return string
+	 */
+	public static function createMetaTags()
+	{
+		$tags = [];
+		$strHttpEquiv = '<meta http-equiv="%s" content="%s">';
+		$strMetaTag = '<meta name="%s" content="%s">';
+		if (Config::get('meta_http_equiv')) {
+			foreach (Config::get('meta_http_equiv') as $equiv => $content) {
+				$tags[] = sprintf($strHttpEquiv, $equiv, $content);
+			}
+		}
+		if (Config::get('metatags')) {
+			$tags[] = "";
+			foreach (Config::get('metatags') as $name => $content) {
+				if($name == strtolower("charset")) 
+					$tags[] = '<meta charset="'.$content.'">';
+				else
+					$tags[] = sprintf($strMetaTag, $name, $content);
+			}
+		}
+		return implode("\n", $tags);
+	}
+	
+	
+	/**
+	 * Creates the title tag
+	 * 
+	 * @return string
+	 */
+	public static function createTitleTag()
+	{
+		if (Config::get('page_settings', 'title')) {
+				return '<title>' . Config::get('page_settings', 'title') . '</title>';
+		}
+		return "";
+	}
+	
+	
+	/**
+	 * Creates stylesheet tags
+	 * 
+	 * @return string
+	 */
+	public static function createStylesheetTags()
+	{
+		$tags = [];
+		$str = '<link rel="stylesheet" href="%s" media="%s">';
+		if (Config::get('additional_css_files')) {
+			foreach (Config::get('additional_css_files')["screen"] as $href) {
+				$tags[] = sprintf($str, $href, "screen");
+			}
+			foreach (Config::get('additional_css_files')["print"] as $href) {
+				$tags[] = sprintf($str, $href, "print");
+			}
+		}
+		return implode("\n", $tags);
+	}
+
 
 }
+
