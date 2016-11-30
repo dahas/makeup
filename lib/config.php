@@ -20,14 +20,13 @@ class Config
             $appConfig = self::$config;
         }
 
-
         if (file_exists("makeup/modules/$moduleFileName/config/$moduleFileName.ini")) {
             $modConfig = parse_ini_file("makeup/modules/$moduleFileName/config/$moduleFileName.ini", true);
             $modConfig['additional_css_files']['screen'] = self::setModCssScreenFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_css_files']['print'] = self::setModCssPrintFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_body']['js'] = self::setModJsFilesBodyPath($modConfig, $moduleFileName);
-            $appConfig = Tools::arrayReplace($appConfig, $modConfig);
+            $appConfig = Tools::arrayMerge($appConfig, $modConfig);
         }
 
         self::$config = $appConfig;
@@ -231,7 +230,7 @@ class Config
      */
     private static function setModJsFilesHeadPath($config, $mod)
     {
-        if (isset($config['additional_js_files_head']['js'][0]) && $config['additional_js_files_head']['css'][0]) {
+        if (isset($config['additional_js_files_head']['js'][0]) && $config['additional_js_files_head']['js'][0]) {
             $newPath = [];
             foreach ($config['additional_js_files_head']['js'] as $file) {
                 $newPath[] = "makeup/modules/$mod/res/js/$file";
@@ -248,7 +247,7 @@ class Config
      */
     private static function setModJsFilesBodyPath($config, $mod)
     {
-        if (isset($config['additional_js_files_body']['js'][0]) && $config['additional_js_files_body']['css'][0]) {
+        if (isset($config['additional_js_files_body']['js'][0]) && $config['additional_js_files_body']['js'][0]) {
             $newPath = [];
             foreach ($config['additional_js_files_body']['js'] as $file) {
                 $newPath[] = "makeup/modules/$mod/res/js/$file";

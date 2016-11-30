@@ -226,6 +226,42 @@ class Template
 		}
 		return implode("\n", $tags);
 	}
+	
+	
+	/**
+	 * Creates JavaScript files tags in the head section
+	 * 
+	 * @return string
+	 */
+	public static function createJsFilesHeadTags()
+	{
+		$tags = [];
+		$str = '<script type="text/javascript" src="%s"></script>';
+		if (Config::get('additional_js_files_head')) {
+			foreach (Config::get('additional_js_files_head')['js'] as $href) {
+				$tags[] = sprintf($str, $href);
+			}
+		}
+		return implode("\n", $tags);
+	}
+	
+	
+	/**
+	 * Creates JavaScript files tags in the body section before the closing tag. 
+	 * 
+	 * @return string
+	 */
+	public static function createJsFilesBodyTags()
+	{
+		$tags = [];
+		$str = '<script type="text/javascript" src="%s"></script>';
+		if (Config::get('additional_js_files_body')) {
+			foreach (Config::get('additional_js_files_body')['js'] as $href) {
+				$tags[] = sprintf($str, $href);
+			}
+		}
+		return implode("\n", $tags);
+	}
 
 
 }

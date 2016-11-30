@@ -68,29 +68,13 @@ class App extends Module
 		// Adds stylsheet links to the head section as defined in the ini files.
 		$marker['%CONF_CSS_FILES%'] = Template::createStylesheetTags();
 
-		$SubJsFilesHead = $this->getTemplate()->getSubpart('%CONF_JS_FILES_HEAD%');
-		$subpart['%CONF_JS_FILES_HEAD%'] = '';
-		if (isset($additionalJsFilesHead['js'])) {
-			foreach ($additionalJsFilesHead['js'] as $file) {
-				if ($file) {
-					$jsMarker['%FILE%'] = $file;
-					$subpart['%CONF_JS_FILES_HEAD%'] .= $SubJsFilesHead->parse($jsMarker);
-				}
-			}
-		}
+		// Adds javascript files to the head section as defined in the ini files.
+		$marker['%CONF_JS_FILES_HEAD%'] = Template::createJsFilesHeadTags();
+		
+		// Adds javascript files to the body section as defined in the ini files.
+		$marker['%CONF_JS_FILES_BODY%'] = Template::createJsFilesBodyTags();
 
-		$SubJsFilesBody = $this->getTemplate()->getSubpart('%CONF_JS_FILES_BODY%');
-		$subpart['%CONF_JS_FILES_BODY%'] = '';
-		if (isset($additionalJsFilesBody['js'])) {
-			foreach ($additionalJsFilesBody['js'] as $file) {
-				if ($file) {
-					$jsMarker['%FILE%'] = $file;
-					$subpart['%CONF_JS_FILES_BODY%'] .= $SubJsFilesBody->parse($jsMarker);
-				}
-			}
-		}
-
-		return $this->getTemplate()->parse($marker, $subpart);
+		return $this->getTemplate()->parse($marker);
 	}
 
 

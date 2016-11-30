@@ -11,9 +11,7 @@
         
         %CONF_CSS_FILES%
 
-        <!-- %CONF_JS_FILES_HEAD% begin -->
-        <script type="text/javascript" src="%FILE%"></script>
-        <!-- %CONF_JS_FILES_HEAD% end -->
+        %CONF_JS_FILES_HEAD%
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -23,11 +21,12 @@
     </head>
     <body>
         %LAYOUT%
+        
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="makeup/vendor/components/jquery/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="makeup/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- %CONF_JS_FILES_BODY% begin -->
-        <script type="text/javascript" src="%FILE%"></script><!-- %CONF_JS_FILES_BODY% end -->
+        
+        %CONF_JS_FILES_BODY%
     </body>
 </html>

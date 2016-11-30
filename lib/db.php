@@ -29,11 +29,11 @@ class DB
      */
     protected function __construct()
     {
-        $this->db = Config::get('database|db_name');
-        $this->host = Config::get('database|host');
-        $this->user = Config::get('database|username');
-        $this->pass = Config::get('database|password');
-        $this->charset = Config::get('database|charset');
+        $this->db = Config::get('database', 'db_name');
+        $this->host = Config::get('database', 'host');
+        $this->user = Config::get('database', 'username');
+        $this->pass = Config::get('database', 'password');
+        $this->charset = Config::get('database', 'charset');
 
         $this->conn = mysqli_connect($this->host, $this->user, $this->pass) or die("Connection to database failed!");
 
