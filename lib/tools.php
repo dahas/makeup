@@ -32,7 +32,7 @@ class Tools
 
 		// Parameters "mod" and "task" are always required!
 		if (!isset($varArr["mod"]))
-			$varArr["mod"] = "";
+			$varArr["mod"] = Config::get("app_settings", "default_module");
 
 		if (!isset($varArr["task"]))
 			$varArr["task"] = "render";
@@ -122,11 +122,17 @@ class Tools
 	{
 		foreach ($array2 as $key => $val) {
 			if (!is_array($val) && $val) {
-				$array1[] = $val;
+				if (is_numeric($key))
+					$array1[] = $val;
+				else
+					$array1[$key] = $val;
 			} elseif (isset($array1[$key]) && is_array($val)) {
 				$array1[$key] = self::arrayMerge($array1[$key], $val);
 			} elseif (!isset($array1[$key])) {
-				$array1[$key] = $array2[$key];
+				if (is_numeric($key))
+					$array1[] = $array2[$key];
+				else
+					$array1[$key] = $array2[$key];
 			}
 		}
 		return $array1;

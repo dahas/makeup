@@ -26,7 +26,10 @@ class Template
 	 */
 	public static function load($modName, $templateFile)
 	{
-		$modName = Tools::camelCaseToUnderscore($modName);
+		$modNsArr = explode("\\", $modName);
+		$className = array_pop($modNsArr);
+		
+		$modName = Tools::camelCaseToUnderscore($className);
 
 		if ($modName == "app")
 			$file = "makeup/$modName/view/$templateFile";

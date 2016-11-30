@@ -61,7 +61,7 @@ class Config
 
             return $arg;
         } 
-        return null;
+        return self::$config;
     }
 
 
