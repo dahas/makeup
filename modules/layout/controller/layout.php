@@ -31,29 +31,12 @@ class Layout extends Module
      */
     public function render($modName = "")
     {
-        // Connecting the navbar
-        $marker["%MOD_NAVBAR%"] = $this->navbar();
-
-        // Get the configuration settings of a specific module
-        $modConf = Config::getFromModule($modName);
-
-        $marker["%PAGE_TITLE%"] = $modConf['page_settings']['subtitle'];
-
-        // Creating and rendering the requested module
-        $marker["%MODULE%"] = Module::create($modName)->secureRender();
-
-        return $this->getTemplate()->parse($marker);
+        return $this->getTemplate()->parse();
     }
-
-
-    /**
-     * Task to create the navbar
-     *
-     * @return mixed|string
-     */
-    public function navbar()
-    {
-        $partial = Template::load(__CLASS__, "navbar.html");
-        return $partial->parse();
-    }
+		
+		public function debug()
+		{
+			$partial = Template::load(__CLASS__, "layout_1.html");
+			return $partial->parse();
+		}
 }

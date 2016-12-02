@@ -30,6 +30,8 @@ class Config
         }
 
         self::$config = $appConfig;
+				
+				$_SESSION['_config'] = $appConfig;
     }
 
 

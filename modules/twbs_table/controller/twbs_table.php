@@ -33,7 +33,7 @@ class TwbsTable extends Module
 	/**
 	 * @return mixed|string
 	 */
-	public function render()
+	public function build()
 	{
 		/**
 		 * Always run useService() first, so that the service is available.

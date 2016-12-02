@@ -24,13 +24,9 @@ class Bootstrap extends Module
 	/**
 	 * @return mixed|string
 	 */
-	public function render()
+	public function build()
 	{
-		/**
-		 * secureRender() takes care of the setting "mod_settings|protected". If protected is
-		 * set to 1 and the user isn´t logged in, the module won´t be rendered.
-		 */
-		$marker["%MOD_TWBS_TABLE%"] = Module::create("twbs_table")->secureRender();
+		$marker["%MOD_TWBS_TABLE%"] = Module::create("twbs_table")->render();
 
 		return $this->getTemplate()->parse($marker);
 	}

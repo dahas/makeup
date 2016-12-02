@@ -25,7 +25,7 @@ class Home extends Module
     /**
      * @return mixed|string
      */
-    public function render()
+    public function build()
     {
         $marker["%MAIN_TITLE%"] = Config::get("page_settings|title");
 

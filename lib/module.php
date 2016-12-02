@@ -19,6 +19,9 @@ abstract class Module
 
 	public function __construct()
 	{
+		if(!isset($_SESSION))
+			session_start();
+
 		$modNsArr = explode("\\", get_class($this));
 		$className = array_pop($modNsArr);
 		$moduleFileName = Tools::camelCaseToUnderscore($className);
@@ -31,6 +34,34 @@ abstract class Module
 			$this->Template = Template::load("App", "app.html");
 		else
 			$this->Template = Template::load($className, "$moduleFileName.html");
+	}
+	
+	
+	/**
+	 * Run and output the app.
+	 * 
+	 * @return mixed|string
+	 */
+	public function execute()
+	{
+		// Parameter "mod" is the required module name.
+		$modName = $this->RQ['mod'];
+
+		// Parameter "task" is required, so that the module knows, 
+		// which task to execute.
+		$task = $this->RQ['task'];
+
+		// With parameter "nowrap" a module is rendered with its own template only.
+		// No other HTML (neither app nor layout) is wrapped around it.
+		if (!isset($this->RQ['wrap']) && (isset($this->RQ['nowrap']) || $task != "build")) {
+			$appHtml = Module::create($modName)->$task();
+		} else {
+			// The app will be renderd, if it is NOT protected.
+			// Or if it is protected and the user is signed in.
+			$appHtml = $this->render($modName);
+		}
+
+		die($appHtml);
 	}
 
 
@@ -71,11 +102,11 @@ abstract class Module
 
 
 	/**
-	 * Returns the rendered HTML.
+	 * Build the HTML content.
 	 *
 	 * @return mixed
 	 */
-	abstract public function render();
+	abstract public function build();
 	
 	
 	/**
@@ -85,13 +116,16 @@ abstract class Module
 	 *
 	 * @return mixed|void
 	 */
-	public function secureRender()
+	public function render($modName = "")
 	{
-		if (Config::get('mod_settings', 'protected') == "1" 
-			&& (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+		// Deny access to a protected page as long as the user isn´t signed in.
+		if (Config::get("page_settings", "protected") == "1" && (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
+			die("Access denied!");
+		
+		if (Config::get('mod_settings', 'protected') == "1" && (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false))
 			return null;
-		else
-			return $this->render();
+		
+		return $this->build($modName);
 	}
 
 
@@ -155,9 +189,11 @@ class ErrorMod
 	}
 
 
-	public function secureRender()
+	public function __destruct()
 	{
-		return self::render();
+		unset($this->Template);
+		unset($this->DB);
+		unset($this);
 	}
 
 

@@ -35,7 +35,7 @@ class Tools
 			$varArr["mod"] = Config::get("app_settings", "default_module");
 
 		if (!isset($varArr["task"]))
-			$varArr["task"] = "render";
+			$varArr["task"] = "build";
 
 		return $varArr;
 	}
@@ -140,16 +140,18 @@ class Tools
 
 
 	/**
-	 * Debug output
+	 * Debug output in an iframe
 	 * @param type $val
 	 */
 	public static function debug($val)
 	{
-		echo '<div style="position:fixed; bottom:0; left:70%; width:30%; max-height:100%; z-index:99999; border: 1px solid grey; background: silver; padding:10px;">';
-		echo '<div style="overflow:scroll; height:700px;">';
-		echo '<pre>';
-		print_r($val);
-		echo '</pre></div></div>';
+		$_SESSION['_debug'] = $val;
+		if (Config::get("app_settings", "dev_mode")) {
+			$html = '<div style="position:fixed; bottom:0; left:70%; width:30%; z-index:99999; background: silver; border: 1px solid grey; padding:10px;">
+							<iframe src="/makeup/lib/div/debug.php" style="width: 100%; height: 700px; border:none;"></iframe>
+						</div>';
+			echo $html;
+		}
 	}
 
 
