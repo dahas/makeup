@@ -46,7 +46,7 @@ class TwbsTable extends Module
 		 * Get a supart of the template like this and treat it like a template.
 		 */
 		$spMarkerString = "%SUBPART_ROWS%";
-		$subpart = $this->getTemplate()->getSubpart($spMarkerString);
+		$subpart = $this->getTemplate()->getPartial($spMarkerString);
 		$spMarker[$spMarkerString] = "";
 
 		// Iterate with getItem() thru the data that the service provides.

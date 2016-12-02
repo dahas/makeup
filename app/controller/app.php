@@ -4,6 +4,8 @@ namespace makeup\app\controller;
 
 /*******************************************************************************
  *
+ * BUILD -> PARSE -> RENDER -> EXECUTE
+ * 
  * This class creates the HTML skeleton. It adds meta tags, 
  * javascript- and css-files to the related sections of the template file.
  * 
@@ -35,14 +37,13 @@ class App extends Module
 		parent::__construct();
 
 		// Simulate login:
-		$_SESSION["logged_in"] = false;
+		$_SESSION["logged_in"] = true;
 	}
 
 
 	/**
-	 * Build and render the complete HTML.
-	 *
-	 * @param $modName
+	 * Build the complete HTML.
+	 * @param $modName			The module, that the app should render.
 	 * @return mixed|string
 	 */
 	public function build($modName = "")
@@ -63,8 +64,7 @@ class App extends Module
 		$marker['%CONF_JS_FILES_BODY%'] = Template::createJsFilesBodyTags();
 
 		// Connecting the navbar
-		$partial = Template::load(__CLASS__, "navbar.html");
-		$marker["%NAVBAR%"] = $partial->parse();
+		$marker["%NAVBAR%"] = $this->buildNavbar($modName);
 
 		// Get the configuration settings of the requested module
 		$modConf = Config::getFromModule($modName);
@@ -77,6 +77,34 @@ class App extends Module
 		$marker["%CONTENT%"] = Module::create($modName)->render();
 
 		return $this->getTemplate()->parse($marker);
+	}
+	
+	
+	/**
+	 * Build the top navigation bar
+	 * @param type $modName
+	 * @return type
+	 */
+	private function buildNavbar($modName)
+	{
+		$menu = [];
+		$menu["home"] = ["link" => "/", "text" => "Get started"];
+		$menu["bootstrap"] = ["link" => "?mod=bootstrap", "text" => "Bootstrap Theme"];
+		
+		$navbar = $this->getTemplate("navbar.html");
+		$navbarMenu = $navbar->getPartial("%MENU%");
+		$partialNavbar["%MENU%"] = "";
+		
+		foreach ($menu as $item => $data)
+		{
+			$partialNavbar["%MENU%"] .= $navbarMenu->parse([
+				"%LINK%" => $data["link"],
+				"%TEXT%" => $data["text"],
+				"%ACTIVE%" => $item == $modName ? 'class="active"' : ''
+			]);
+		}
+		
+		return $navbar->parse([], $partialNavbar);
 	}
 
 

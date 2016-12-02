@@ -61,7 +61,7 @@ class Template
 	}
 
 
-	public function getSubpart($marker)
+	public function getPartial($marker)
 	{
 		$start = strpos($this->html, $marker);
 		if ($start === false) {

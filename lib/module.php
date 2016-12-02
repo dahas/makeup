@@ -12,9 +12,10 @@ use DI\ContainerBuilder;
  */
 abstract class Module
 {
-	private $Template = null;
 	protected $RQ = array();
 	protected $config = array();
+	private $className = "";
+	private $moduleFileName = "";
 
 
 	public function __construct()
@@ -23,17 +24,12 @@ abstract class Module
 			session_start();
 
 		$modNsArr = explode("\\", get_class($this));
-		$className = array_pop($modNsArr);
-		$moduleFileName = Tools::camelCaseToUnderscore($className);
+		$this->className = array_pop($modNsArr);
+		$this->moduleFileName = Tools::camelCaseToUnderscore($this->className);
 
-		Config::init($moduleFileName); // Loads config.ini
+		Config::init($this->moduleFileName); // Loads config.ini
 
 		$this->RQ = Tools::parseQueryString();
-
-		if ($className == "App")
-			$this->Template = Template::load("App", "app.html");
-		else
-			$this->Template = Template::load($className, "$moduleFileName.html");
 	}
 	
 	
@@ -134,9 +130,10 @@ abstract class Module
 	 *
 	 * @return Template|null
 	 */
-	public function getTemplate()
+	public function getTemplate($fileName = "")
 	{
-		return $this->Template;
+		$fname = $fileName ? $fileName : $this->moduleFileName . ".html";
+		return Template::load($this->className, $fname);
 	}
 
 
@@ -159,7 +156,6 @@ abstract class Module
 	 */
 	public function __destruct()
 	{
-		unset($this->Template);
 		unset($this);
 	}
 
@@ -186,14 +182,6 @@ class ErrorMod
 	public function render()
 	{
 		return Tools::errorMessage("Module '$this->modName' not found!");
-	}
-
-
-	public function __destruct()
-	{
-		unset($this->Template);
-		unset($this->DB);
-		unset($this);
 	}
 
 
