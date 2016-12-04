@@ -11,20 +11,21 @@ if (isset($_SESSION['_debug'])) {
 	
 function createTable($config)
 {
-	echo '<table>';
+	$table = '<table>';
 	foreach ($config as $key => $value) {
-		echo '<tr>';
-		echo '<td>' . $key . '</td>';
-		echo '<td>';
+		$table.= '<tr>';
+		$table.= '<td>' . $key . '</td>';
+		$table.= '<td>';
 		if (is_array($value)) {
-			echo createTable($value);
+			$table.= createTable($value);
 		} else {
-			echo "<span style='color:blue;'>" . $value . "</span>";
+			$table.= "<span style='color:blue;'>" . $value . "</span>";
 		}
-		echo '</td>';
-		echo '</tr>';
+		$table.= '</td>';
+		$table.= '</tr>';
 	}
-	echo '</table>';
+	$table.= '</table>';
+	return $table;
 }
 
 ?>

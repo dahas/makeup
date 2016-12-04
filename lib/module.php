@@ -21,6 +21,8 @@ abstract class Module
 	public function __construct()
 	{
 		Session::start();
+		
+		SysCookie::read();
 
 		$modNsArr = explode("\\", get_class($this));
 		$this->className = array_pop($modNsArr);

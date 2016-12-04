@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "201e0b37713620ea4eb8d70bae4b8cc6",
-    "content-hash": "578a1e4a9bd553c13d1dea1a2c58eab4",
+    "hash": "b8771526c0382adef8c1c789b7af47ee",
+    "content-hash": "c9bd8de6f39a3bb3ff2d69a6b144c569",
     "packages": [
         {
             "name": "components/font-awesome",
@@ -108,6 +108,31 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "time": "2014-12-30 15:22:37"
+        },
+        {
+            "name": "dahas/cookie_management",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dahas/cookie_management.git",
+                "reference": "c0bf64c6db3348ee88eb8aeec91be6912db7f574"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dahas/cookie_management/zipball/c0bf64c6db3348ee88eb8aeec91be6912db7f574",
+                "reference": "c0bf64c6db3348ee88eb8aeec91be6912db7f574",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": "^3.1"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Easy cookie handling",
+            "time": "2016-12-04 16:35:42"
         },
         {
             "name": "doctrine/annotations",

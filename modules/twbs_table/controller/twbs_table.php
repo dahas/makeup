@@ -49,6 +49,8 @@ class TwbsTable extends Module
 		$spMarkerString = "%SUBPART_ROWS%";
 		$subpart = $this->getTemplate()->getPartial($spMarkerString);
 		$spMarker[$spMarkerString] = "";
+		
+		Tools::debug($this->Data);
 
 		// Iterate with getItem() thru the data that the service provides.
 		while ($dataItem = $this->Data->getItem()) {
