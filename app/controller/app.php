@@ -23,6 +23,7 @@ spl_autoload_register(__NAMESPACE__ . '\autoloader');
 require_once "makeup/vendor/autoload.php";
 
 
+use makeup\lib\Session;
 use makeup\lib\Config;
 use makeup\lib\Tools;
 use makeup\lib\Template;
@@ -37,7 +38,7 @@ class App extends Module
 		parent::__construct();
 
 		// Simulate login:
-		$_SESSION["logged_in"] = true;
+		Session::set("logged_in", true);
 	}
 
 
@@ -50,7 +51,7 @@ class App extends Module
 	{
 		// Adds meta tags to the head section as defined in the ini files.
 		$marker['%CONF_METATAGS%'] = Template::createMetaTags();
-
+		
 		// Adds the title to the head section as defined in the ini files.
 		$marker['%TITLE%'] = Template::createTitleTag();
 

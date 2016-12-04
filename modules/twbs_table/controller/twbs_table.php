@@ -2,6 +2,7 @@
 
 use makeup\lib\Module;
 use makeup\lib\Template;
+use makeup\lib\Tools;
 
 
 /**

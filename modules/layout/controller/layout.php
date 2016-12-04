@@ -29,14 +29,14 @@ class Layout extends Module
      * @param string $modName
      * @return mixed|string
      */
-    public function render($modName = "")
+    public function build($modName = "")
     {
         return $this->getTemplate()->parse();
     }
 		
 		public function debug()
 		{
-			$partial = Template::load(__CLASS__, "layout_1.html");
+			$partial = $this->getTemplate("layout_1.html");
 			return $partial->parse();
 		}
 }

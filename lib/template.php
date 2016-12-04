@@ -28,7 +28,7 @@ class Template
 	{
 		$modNsArr = explode("\\", $modName);
 		$className = array_pop($modNsArr);
-		
+
 		$modName = Tools::camelCaseToUnderscore($className);
 
 		if ($modName == "app")
@@ -166,8 +166,8 @@ class Template
 	{
 		return $tmpl = str_replace("<body>", $bt, $tmpl);
 	}
-	
-	
+
+
 	/**
 	 * Creates meta tags
 	 * 
@@ -186,16 +186,16 @@ class Template
 		if (Config::get('metatags')) {
 			$tags[] = "";
 			foreach (Config::get('metatags') as $name => $content) {
-				if($name == strtolower("charset")) 
-					$tags[] = '<meta charset="'.$content.'">';
+				if ($name == strtolower("charset"))
+					$tags[] = '<meta charset="' . $content . '">';
 				else
 					$tags[] = sprintf($strMetaTag, $name, $content);
 			}
 		}
 		return implode("\n", $tags);
 	}
-	
-	
+
+
 	/**
 	 * Creates the title tag
 	 * 
@@ -204,12 +204,12 @@ class Template
 	public static function createTitleTag()
 	{
 		if (Config::get('page_settings', 'title')) {
-				return '<title>' . Config::get('page_settings', 'title') . '</title>';
+			return '<title>' . Config::get('page_settings', 'title') . '</title>';
 		}
 		return "";
 	}
-	
-	
+
+
 	/**
 	 * Creates stylesheet tags
 	 * 
@@ -223,14 +223,16 @@ class Template
 			foreach (Config::get('additional_css_files')["screen"] as $href) {
 				$tags[] = sprintf($str, $href, "screen");
 			}
-			foreach (Config::get('additional_css_files')["print"] as $href) {
-				$tags[] = sprintf($str, $href, "print");
+			if (isset(Config::get('additional_css_files')["print"])) {
+				foreach (Config::get('additional_css_files')["print"] as $href) {
+					$tags[] = sprintf($str, $href, "print");
+				}
 			}
 		}
 		return implode("\n", $tags);
 	}
-	
-	
+
+
 	/**
 	 * Creates JavaScript files tags in the head section
 	 * 
@@ -247,8 +249,8 @@ class Template
 		}
 		return implode("\n", $tags);
 	}
-	
-	
+
+
 	/**
 	 * Creates JavaScript files tags in the body section before the closing tag. 
 	 * 
@@ -261,6 +263,9 @@ class Template
 		if (Config::get('additional_js_files_body')) {
 			foreach (Config::get('additional_js_files_body')['js'] as $href) {
 				$tags[] = sprintf($str, $href);
+			}
+			if (Config::get("app_settings", "dev_mode")) {
+				$tags[] = sprintf($str, "makeup/lib/div/system.js");
 			}
 		}
 		return implode("\n", $tags);

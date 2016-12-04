@@ -20,8 +20,7 @@ abstract class Module
 
 	public function __construct()
 	{
-		if(!isset($_SESSION))
-			session_start();
+		Session::start();
 
 		$modNsArr = explode("\\", get_class($this));
 		$this->className = array_pop($modNsArr);
@@ -54,7 +53,9 @@ abstract class Module
 		} else {
 			// The app will be renderd, if it is NOT protected.
 			// Or if it is protected and the user is signed in.
-			$appHtml = $this->render($modName);
+			$html = $this->render($modName);
+			$debugPanel = Tools::renderDebugPanel();
+			$appHtml = Template::html($html)->parse(["</body>" => "$debugPanel\n</body>"]);
 		}
 
 		die($appHtml);
