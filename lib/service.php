@@ -27,7 +27,7 @@ abstract class Service
 
 
     /**
-     * This function is more an alias. The name might be easier
+     * This function is more an alias. The name might be easier 
      * to understand when implementing the service.
 		 * @return int RecordCount
      */
