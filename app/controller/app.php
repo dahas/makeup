@@ -38,7 +38,7 @@ class App extends Module
 		parent::__construct();
 
 		// Simulate login:
-		Session::set("logged_in", false);
+		Session::set("logged_in", true);
 	}
 
 
