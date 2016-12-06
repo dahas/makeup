@@ -111,16 +111,16 @@
         },
         {
             "name": "dahas/cookie_management",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dahas/cookie_management.git",
-                "reference": "c0bf64c6db3348ee88eb8aeec91be6912db7f574"
+                "reference": "6782241e64c42c7a94b6e6d6d6cf00c084210704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dahas/cookie_management/zipball/c0bf64c6db3348ee88eb8aeec91be6912db7f574",
-                "reference": "c0bf64c6db3348ee88eb8aeec91be6912db7f574",
+                "url": "https://api.github.com/repos/dahas/cookie_management/zipball/6782241e64c42c7a94b6e6d6d6cf00c084210704",
+                "reference": "6782241e64c42c7a94b6e6d6d6cf00c084210704",
                 "shasum": ""
             },
             "require": {
@@ -131,8 +131,8 @@
             "license": [
                 "MIT"
             ],
-            "description": "Easy cookie handling",
-            "time": "2016-12-04 16:35:42"
+            "description": "Easy cookie handling.",
+            "time": "2016-12-05 21:14:13"
         },
         {
             "name": "doctrine/annotations",

@@ -1,8 +1,9 @@
 <?php
 
+$var = null;
+
 session_start();
 
-$var = null;
 if (isset($_SESSION['_debug'])) {
 	$var = $_SESSION['_debug'];
 }
@@ -53,7 +54,7 @@ function createTable($config)
 		<?php if($var): ?>
 		<div style="padding: 4px 0px; background: silver;"><b>Debug output</b></div>
 		<div style="height: 300px; overflow: auto;">
-			<pre><?php print_r($var) ?></pre>
+			<pre><?php @print_r($var) ?></pre>
 		</div>
 		<?php endif; ?>
 		<div style="padding: 4px 0px 2px; background: silver;"><b>Configuration</b></div>
