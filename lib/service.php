@@ -29,10 +29,12 @@ abstract class Service
     /**
      * This function is more an alias. The name might be easier
      * to understand when implementing the service.
+		 * @return int RecordCount
      */
     public function useService()
     {
         $this->recordset = $this->getCollection();
+				return $this->recordset->getRecordCount();
     }
 
 
