@@ -10,51 +10,41 @@ namespace makeup\lib;
 abstract class Service
 {
 	protected $DB = null;
-	protected $recordset = null;
-	
+	private $recordset = null;
 	private $table = "";
 	private $columns = "*";
 
 
-	public function __construct()
-	{
-		// Call the database instance
-		$this->DB = DB::getInstance();
-		
-		$config = $this->srvSetup();
-		
-		if (isset($config["table"]))
-			$this->table = $config["table"];
-		
-		if (isset($config["columns"]))
-			$this->columns = $config["columns"];
-	}
-	
-	
-	protected function srvSetup() {}
-	
 	/**
-	 * In this function the select statement has to be defined.
+	 * 
+	 * @param type $table			Name of the table
+	 * @param type $columns		Required columns (optional, default is *)
 	 */
-	public function getRecordset()
+	public function __construct($table = "", $columns = "*")
 	{
-		$this->recordset = $this->DB->select([
+		// Get the database instance
+		$this->DB = DB::getInstance();
+
+		$this->table = $table;
+		$this->columns = $columns;
+	}
+
+
+	/**
+	 * Creates the recordset from the basic setup of the service. 
+	 * @return int	Records count
+	 */
+	public function useService($recordset = null)
+	{
+		if ($recordset) {
+			$this->recordset = $recordset;
+		} else {
+			$this->recordset = $this->DB->select([
 				"columns" => $this->columns,
 				"from" => $this->table
-		]);
-	}
-
-
-	/**
-	 * In this function the statement with a where clause has to be defined.
-	 * @param type $key			Name of the column
-	 * @param type $value		Value of the column
-	 * @param type $fields	Which fields to return (optional)
-	 */
-	public function useRecord($key, $value, $fields = "")
-	{
-		$this->recordset = $this->getRecordByKey($key, $value, $fields = "");
-		return $this->getRecord();
+			]);
+		}
+		return $this->count();
 	}
 
 
@@ -78,7 +68,7 @@ abstract class Service
 	public function getRecord()
 	{
 		if (!$this->recordset) {
-			throw new \Exception('No collection found! Run method "getRecordset()" first.');
+			throw new \Exception('No collection found! Run method "useService()" first.');
 		}
 
 		if ($record = $this->recordset->getRecord()) {
