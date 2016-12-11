@@ -1,5 +1,4 @@
 <?php
-
 $var = null;
 
 session_start();
@@ -8,27 +7,25 @@ if (isset($_SESSION['_debug'])) {
 	$var = $_SESSION['_debug'];
 }
 
-	$config = $_SESSION['_config'];
-	
+$config = $_SESSION['_config'];
 function createTable($config)
 {
 	$table = '<table>';
 	foreach ($config as $key => $value) {
-		$table.= '<tr>';
-		$table.= '<td>' . $key . '</td>';
-		$table.= '<td>';
+		$table .= '<tr>';
+		$table .= '<td>' . $key . '</td>';
+		$table .= '<td>';
 		if (is_array($value)) {
-			$table.= createTable($value);
+			$table .= createTable($value);
 		} else {
-			$table.= "<span style='color:blue;'>" . $value . "</span>";
+			$table .= "<span style='color:blue;'>" . $value . "</span>";
 		}
-		$table.= '</td>';
-		$table.= '</tr>';
+		$table .= '</td>';
+		$table .= '</tr>';
 	}
-	$table.= '</table>';
+	$table .= '</table>';
 	return $table;
 }
-
 ?>
 <html>
   <head>
@@ -51,15 +48,30 @@ function createTable($config)
 		</style>
   </head>
   <body style="background: #eee; overflow:hidden;">
-		<?php if($var): ?>
-		<div style="padding: 4px 0px; background: silver;"><b>Debug output</b></div>
-		<div style="height: 300px; overflow: auto;">
-			<pre><?php @print_r($var) ?></pre>
-		</div>
+		<?php if ($var): ?>
+			<div style="padding: 4px 0px; background: silver;"><b>Debug output</b></div>
+			<div style="height: 300px; overflow: auto;">
+				<?php
+				foreach ($var as $idx => $val) {
+					$debug = "";
+					$pathParts = explode("\makeup", $var[$idx]['file']);
+
+					$path = "\makeup" . $pathParts[1];
+					$line = $var[$idx]['line'];
+
+					$debug .= '<b>"' . $path . '" [Zeile: ' . $line . ']</b>';
+					echo $debug;
+					?>
+					<pre><?php @print_r($var[$idx]['args'][0]); ?></pre>
+					<br/>
+					<?php
+				}
+				?>
+			</div>
 		<?php endif; ?>
 		<div style="padding: 4px 0px 2px; background: silver;"><b>Configuration</b></div>
 		<div style="height: 354px; overflow: auto;">
-<?php echo createTable($config); ?>
+			<?php echo createTable($config); ?>
 		</div>
   </body>
 </html>
