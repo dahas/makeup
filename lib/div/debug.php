@@ -50,7 +50,7 @@ function createTable($config)
   <body style="background: #eee; overflow:hidden;">
 		<?php if ($var): ?>
 			<div style="padding: 4px 0px; background: silver;"><b>Debug output</b></div>
-			<div style="height: 300px; overflow: auto;">
+			<div style="height: 300px; padding: 5px; overflow: auto;">
 				<?php
 				foreach ($var as $idx => $val) {
 					$debug = "";
@@ -59,10 +59,12 @@ function createTable($config)
 					$path = "\makeup" . $pathParts[1];
 					$line = $var[$idx]['line'];
 
-					$debug .= '<b>"' . $path . '" [Zeile: ' . $line . ']</b>';
+					$debug .= '<b>"' . $path . '"</b> <span style="color:red;">[Zeile: ' . $line . ']</span>';
 					echo $debug;
 					?>
+				<div style="margin:5px 0; border-radius: 5px; background: #fff; padding: 5px;">
 					<pre><?php @print_r($var[$idx]['args'][0]); ?></pre>
+				</div>
 					<br/>
 					<?php
 				}
