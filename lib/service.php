@@ -13,7 +13,7 @@ abstract class Service
 	protected $recordset = null;
 	
 	private $table = "";
-	private $fields = "*";
+	private $columns = "*";
 
 
 	public function __construct()
@@ -21,17 +21,17 @@ abstract class Service
 		// Call the database instance
 		$this->DB = DB::getInstance();
 		
-		$config = $this->setupService();
+		$config = $this->srvSetup();
 		
 		if (isset($config["table"]))
 			$this->table = $config["table"];
 		
-		if (isset($config["fields"]))
-			$this->fields = $config["fields"];
+		if (isset($config["columns"]))
+			$this->columns = $config["columns"];
 	}
 	
 	
-	protected function setupService() {}
+	protected function srvSetup() {}
 	
 	/**
 	 * In this function the select statement has to be defined.
@@ -39,7 +39,7 @@ abstract class Service
 	public function getRecordset()
 	{
 		$this->recordset = $this->DB->select([
-				"columns" => $this->fields,
+				"columns" => $this->columns,
 				"from" => $this->table
 		]);
 	}
