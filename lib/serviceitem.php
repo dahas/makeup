@@ -29,7 +29,7 @@ class ServiceItem
      */
     public function getProperty($item)
     {
-        return $this->record->$item;
+        return isset($this->record->$item) ? $this->record->$item : null;
     }
 
 

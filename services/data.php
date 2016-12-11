@@ -23,7 +23,7 @@ class Data extends Service
 	 * are defined, all columns [*] will be used by defaault.
 	 * @return type
 	 */
-	public function setupService()
+	public function srvSetup()
 	{
 		return [
 			"table" => "data",
