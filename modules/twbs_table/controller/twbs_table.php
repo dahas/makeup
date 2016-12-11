@@ -45,11 +45,10 @@ class TwbsTable extends Module
 		$partial = $this->getTemplate("twbs_table_row.html");
 		$marker["%TMPL_ROWS%"] = "";
 		
-		$this->DataService->getRecordset();
+		#$this->DataService->useService();
+		$count = $this->DataService->selectUsers("Pavel");
 		
-		#$record = $this->DataService->useRecord("name", "Pavel");
-		#echo $record->getProperty("uid");
-		#Tools::debug($record);
+		Tools::debug($count);
 
 		// Iterate with getItem() thru the data that the service provides.
 		while ($dataItem = $this->DataService->getRecord()) {

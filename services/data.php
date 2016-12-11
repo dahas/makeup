@@ -12,23 +12,31 @@ use makeup\lib\ServiceItem;
  */
 class Data extends Service
 {
-	public function __construct($key = "", $value = "", $fields = "")
+	public function __construct()
 	{
-		parent::__construct($key, $value, $fields);
+		/**
+		 * Call parent constructor and provide some options.
+		 */
+		parent::__construct(
+			"data", // Name of the table
+			"name, age, city"	// Required columns (optional, default is *.)
+		);
 	}
 
 
 	/**
-	 * Which columns of which table should be used in the recordset. If no columns 
-	 * are defined, all columns [*] will be used by defaault.
-	 * @return type
+	 * Function with a more complex SQL statement. If you have defined
+	 * a setup before a custom select, the setup will be overwritten.
+	 * @param type $name	Parameter for where clause.
 	 */
-	public function srvSetup()
+	public function selectUsers($name)
 	{
-		return [
-			"table" => "data",
-			"columns" => "name, age, city"
-		];
+		$rs = $this->DB->select([
+			"columns" => "*",
+			"from" => "data",
+			"where" => "name='$name'"
+		]);
+		return $this->useService($rs);
 	}
 
 
