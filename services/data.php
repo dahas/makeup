@@ -12,18 +12,26 @@ use makeup\lib\ServiceItem;
  */
 class Data extends Service
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	public function __construct($key = "", $value = "", $fields = "")
+	{
+		parent::__construct($key, $value, $fields);
+	}
 
-    protected function getCollection()
-    {
-        return $this->DB->select([
-            "columns" => "*",
-            "from" => "data"
-        ]);
-    }
+
+	/**
+	 * Which columns of which table should be used in the recordset. If no columns 
+	 * are defined, all columns [*] will be used by defaault.
+	 * @return type
+	 */
+	public function setupService()
+	{
+		return [
+			"table" => "data",
+			"columns" => "name, age, city"
+		];
+	}
+
+
 }
 
 
@@ -35,5 +43,6 @@ class Data extends Service
  */
 class DataItem extends ServiceItem
 {
-
+	
 }
+
