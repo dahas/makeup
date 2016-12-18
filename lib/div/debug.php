@@ -62,7 +62,7 @@ function createTable($config)
 					$debug .= '<b>"' . $path . '"</b> <span style="color:red;">[Zeile: ' . $line . ']</span>';
 					echo $debug;
 					?>
-				<div style="margin:5px 0; border-radius: 5px; background: #fff; padding: 5px;">
+				<div style="display: inline-block; margin:5px 0; border-radius: 5px; background: #fff; padding: 5px;">
 					<pre><?php @print_r($var[$idx]['args'][0]); ?></pre>
 				</div>
 					<br/>
