@@ -36,7 +36,7 @@ class Data extends Service
 			"from" => "data",
 			"where" => "name='$name'"
 		]);
-		\makeup\lib\Tools::debug($rs);
+		
 		return $this->useService($rs);
 	}
 

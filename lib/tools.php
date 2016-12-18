@@ -147,13 +147,11 @@ class Tools
 	 */
 	public static function debug($val="")
 	{
-		#$_SESSION['_debug'] = $val;
 		$bt = debug_backtrace();
 		$caller = array_shift($bt);
 		unset($caller["function"]);
 		unset($caller["class"]);
 		unset($caller["type"]);
-		#print_r($caller);
 		self::$debugArr[] = $caller;
 		Session::set('_debug', self::$debugArr);
 	}

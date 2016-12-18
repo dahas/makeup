@@ -11,8 +11,10 @@ abstract class Service
 {
 	protected $DB = null;
 	private $recordset = null;
+	
 	private $table = "";
 	private $columns = "*";
+	private $where = "";
 
 
 	/**
@@ -57,15 +59,26 @@ abstract class Service
 	{
 		return $this->recordset->getRecordCount();
 	}
-
-
+	
+	
+	public function setWhere($where)
+	{
+		
+	}
+	
+	
+	public function getByKey($key, $value)
+	{
+		
+	}
+	
 	/**
 	 * Creates the model of the data provided by the service.
 	 * Cannot be executed before useService() has been run.
 	 * @return mixed
 	 * @throws \Exception
 	 */
-	public function getRecord()
+	public function next()
 	{
 		if (!$this->recordset) {
 			throw new \Exception('No collection found! Run method "useService()" first.');
