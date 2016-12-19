@@ -15,8 +15,13 @@ class Tools
 	private static $bodyOnload = '';
 	
 	private static $debugArr = [];
-
-
+	
+	
+	public static function loadIniFile($modName = "")
+	{
+		return parse_ini_file("makeup/modules/$modName/config/$modName.ini", true);
+	}
+	
 	public static function parseQueryString()
 	{
 		$varArr = array();

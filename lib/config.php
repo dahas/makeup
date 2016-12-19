@@ -21,7 +21,7 @@ class Config
         }
 
         if (file_exists("makeup/modules/$moduleFileName/config/$moduleFileName.ini")) {
-            $modConfig = parse_ini_file("makeup/modules/$moduleFileName/config/$moduleFileName.ini", true);
+            $modConfig = Tools::loadIniFile($moduleFileName);
             $modConfig['additional_css_files']['screen'] = self::setModCssScreenFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_css_files']['print'] = self::setModCssPrintFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleFileName);
@@ -40,7 +40,7 @@ class Config
      */
     public static function getFromModule($modName)
     {
-        return parse_ini_file("makeup/modules/$modName/config/$modName.ini", true);;
+        return Tools::loadIniFile($modName);
     }
 
 
