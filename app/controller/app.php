@@ -49,6 +49,9 @@ class App extends Module
 	 */
 	public function build($modName = "")
 	{
+		// Creating and rendering the requested module. (Must come first!)
+		$marker["%CONTENT%"] = Module::create($modName)->render();
+		
 		// Adds meta tags to the head section as defined in the ini files.
 		$marker['%CONF_METATAGS%'] = Template::createMetaTags();
 		
@@ -67,15 +70,7 @@ class App extends Module
 		// Connecting the navbar
 		$marker["%NAVBAR%"] = $this->buildNavbar($modName);
 
-		// Get the configuration settings of the requested module
-		$modConf = Config::getFromModule($modName);
-		
-		#Tools::debug($modConf);
-
 		$marker["%PAGE_TITLE%"] = isset($modConf['page_settings']['subtitle']) ? $modConf['page_settings']['subtitle'] : "";
-
-		// Creating and rendering the requested module
-		$marker["%CONTENT%"] = Module::create($modName)->render();
 
 		return $this->getTemplate()->parse($marker);
 	}

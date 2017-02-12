@@ -48,7 +48,7 @@ class TwbsTable extends Module
 		// Get the basic data.
 		$count = $this->DataService->useService();
 		
-		Tools::debug("count = $count");
+		#Tools::debug("count = $count");
 
 		// Iterate with next() thru the data that the service provides.
 		while ($dataItem = $this->DataService->next()) {

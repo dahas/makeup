@@ -17,10 +17,29 @@ class Tools
 	private static $debugArr = [];
 	
 	
-	public static function loadIniFile($modName = "")
+	/**
+	 * Loads an ini file. Either the one that belongs to the module, 
+	 * or a special one. If it doesn´t find a file
+	 * @param type $modName
+	 * @param string $fileName
+	 * @return type
+	 */
+	public static function loadIniFile($modName = "app", $fileName = "")
 	{
-		return parse_ini_file("makeup/modules/$modName/config/$modName.ini", true);
+		if (!$fileName)
+			$fileName = $modName . ".ini";
+	
+		if (strtolower($modName) == "app")
+			$path = "makeup/app/config/app.ini";
+		else
+			$path = "makeup/modules/$modName/config/$fileName";
+		
+		if(file_exists($path))
+			return parse_ini_file($path, true);
+		else
+			return null;
 	}
+	
 	
 	public static function parseQueryString()
 	{

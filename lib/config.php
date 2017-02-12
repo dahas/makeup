@@ -11,7 +11,7 @@ class Config
     public static function init($moduleFileName = "App")
     {
         if (empty(self::$config)) {
-            $appConfig = parse_ini_file("makeup/app/config/app.ini", true);
+            $appConfig = Tools::loadIniFile();
             $appConfig['additional_css_files']['screen'] = self::setAppCssScreenFilesPath($appConfig);
             $appConfig['additional_css_files']['print'] = self::setAppCssPrintFilesPath($appConfig);
             $appConfig['additional_js_files_head']['js'] = self::setAppJsFilesHeadPath($appConfig);
@@ -20,8 +20,7 @@ class Config
             $appConfig = self::$config;
         }
 
-        if (file_exists("makeup/modules/$moduleFileName/config/$moduleFileName.ini")) {
-            $modConfig = Tools::loadIniFile($moduleFileName);
+        if ($modConfig = Tools::loadIniFile($moduleFileName)) {
             $modConfig['additional_css_files']['screen'] = self::setModCssScreenFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_css_files']['print'] = self::setModCssPrintFilesPath($modConfig, $moduleFileName);
             $modConfig['additional_js_files_head']['js'] = self::setModJsFilesHeadPath($modConfig, $moduleFileName);
@@ -32,15 +31,6 @@ class Config
         self::$config = $appConfig;
 				
 				$_SESSION['_config'] = $appConfig;
-    }
-
-
-    /**
-     * @return array
-     */
-    public static function getFromModule($modName)
-    {
-        return Tools::loadIniFile($modName);
     }
 
 
