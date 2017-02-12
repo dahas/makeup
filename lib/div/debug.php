@@ -1,4 +1,5 @@
 <?php
+
 $var = null;
 
 session_start();
@@ -8,6 +9,7 @@ if (isset($_SESSION['_debug'])) {
 }
 
 $config = $_SESSION['_config'];
+
 function createTable($config)
 {
 	$table = '<table>';
