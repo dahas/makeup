@@ -172,7 +172,7 @@ class Recordset
      */
     public function getRecordCount()
     {
-        return mysqli_num_rows($this->recordset);
+        return $this->recordset ? mysqli_num_rows($this->recordset) : 0;
     }
 
 
@@ -181,7 +181,7 @@ class Recordset
      */
     public function reset()
     {
-        return mysqli_data_seek($this->recordset, 0);
+        return $this->recordset ? mysqli_data_seek($this->recordset, 0) : null;
     }
 
 
@@ -194,7 +194,7 @@ class Recordset
         if ($fetch === self::FETCH_ASSOC)
             return mysqli_fetch_assoc($this->recordset);
         if ($fetch === self::FETCH_OBJECT)
-            return mysqli_fetch_object($this->recordset);
+            return $this->recordset ? mysqli_fetch_object($this->recordset) : null;
         return mysqli_fetch_row($this->recordset);
     }
 
@@ -205,7 +205,6 @@ class Recordset
     public function __destruct()
     {
         mysqli_free_result($this->recordset);
-        unset($this);
     }
 
 }

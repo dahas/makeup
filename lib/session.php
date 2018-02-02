@@ -2,7 +2,6 @@
 
 namespace makeup\lib;
 
-
 /**
  * Class Session
  * @package makeup\lib

@@ -154,15 +154,6 @@ abstract class Module
 	}
 
 
-	/**
-	 * Destructor
-	 */
-	public function __destruct()
-	{
-		unset($this);
-	}
-
-
 }
 
 
