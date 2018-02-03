@@ -2,11 +2,9 @@
 
 namespace makeup\lib;
 
-
 class Config
 {
     private static $config = array();
-
 
     public static function init($moduleFileName = "App")
     {
@@ -29,10 +27,9 @@ class Config
         }
 
         self::$config = $appConfig;
-				
-				$_SESSION['_config'] = $appConfig;
-    }
 
+        $_SESSION['_config'] = $appConfig;
+    }
 
     /**
      * @param $entry
@@ -42,20 +39,22 @@ class Config
     {
         $args = func_get_args();
         if ($args) {
-            if (count($args) == 1)
+            if (count($args) == 1) {
                 $arg = isset(self::$config[$args[0]]) ? self::$config[$args[0]] : null;
+            }
 
-            if (count($args) == 2)
+            if (count($args) == 2) {
                 $arg = isset(self::$config[$args[0]][$args[1]]) ? self::$config[$args[0]][$args[1]] : null;
+            }
 
-            if (count($args) == 3)
+            if (count($args) == 3) {
                 $arg = isset(self::$config[$args[0]][$args[1]][$args[2]]) ? self::$config[$args[0]][$args[1]][$args[2]] : null;
+            }
 
             return $arg;
-        } 
+        }
         return self::$config;
     }
-
 
     /**
      * @return array
@@ -65,7 +64,6 @@ class Config
         return self::removeDuplicateFiles(self::$config['additional_css_files']);
     }
 
-
     /**
      * @return array
      */
@@ -74,7 +72,6 @@ class Config
         return self::removeDuplicateFiles(self::$config['additional_js_files_head']);
     }
 
-
     /**
      * @return array
      */
@@ -82,7 +79,6 @@ class Config
     {
         return self::removeDuplicateFiles(self::$config['additional_js_files_body']);
     }
-
 
     /**
      * @param array $files
@@ -94,7 +90,6 @@ class Config
         }
     }
 
-
     /**
      * @param array $files
      */
@@ -105,7 +100,6 @@ class Config
         }
     }
 
-
     /**
      * @param array $files
      */
@@ -115,7 +109,6 @@ class Config
             self::$config['additional_js_files_body'] = array_merge_recursive(self::$config['additional_js_files_body'], $files);
         }
     }
-
 
     /**
      * @param $config
@@ -132,7 +125,6 @@ class Config
         }
     }
 
-
     /**
      * @param $config
      * @return array
@@ -147,7 +139,6 @@ class Config
             return $newPath;
         }
     }
-
 
     /**
      * @param $config
@@ -164,7 +155,6 @@ class Config
         }
     }
 
-
     /**
      * @param $config
      * @return array
@@ -179,7 +169,6 @@ class Config
             return $newPath;
         }
     }
-
 
     /**
      * @param $config
@@ -197,7 +186,6 @@ class Config
         }
     }
 
-
     /**
      * @param $config
      * @param $mod
@@ -213,7 +201,6 @@ class Config
             return $newPath;
         }
     }
-
 
     /**
      * @param $config
@@ -231,7 +218,6 @@ class Config
         }
     }
 
-
     /**
      * @param $config
      * @param $mod
@@ -248,7 +234,6 @@ class Config
         }
     }
 
-
     /**
      * @param $array
      * @return array
@@ -256,10 +241,14 @@ class Config
     private static function removeDuplicateFiles($array)
     {
         $fixedArr = array();
-        if(isset($array['css']))
+        if (isset($array['css'])) {
             $fixedArr['css'] = array_unique($array['css']);
-        if(isset($array['js']))
+        }
+
+        if (isset($array['js'])) {
             $fixedArr['js'] = array_unique($array['js']);
+        }
+
         return $fixedArr;
     }
 

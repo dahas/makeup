@@ -41,12 +41,26 @@ abstract class Module
 	 */
 	public function execute()
 	{
+		// Debugging:
+		$debugMod = "";
+		$debugTask = "";
+		if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
+			$idxMod = array_search('--mod', $_SERVER['argv']);
+			if ($idxMod > 0)
+				$debugMod = $_SERVER['argv'][$idxMod+1];
+
+			$idxTask = array_search('--task', $_SERVER['argv']);
+			if ($idxTask > 0)
+				$debugTask = $_SERVER['argv'][$idxTask+1];
+			
+		}
+
 		// Parameter "mod" is the required module name.
-		$modName = $this->RQ['mod'];
+		$modName = $debugMod ? $debugMod : $this->RQ['mod'];
 
 		// Parameter "task" is required, so that the module knows, 
 		// which task to execute.
-		$task = $this->RQ['task'];
+		$task = $debugTask ? $debugTask : $this->RQ['task'];
 
 		// With parameter "nowrap" a module is rendered with its own template only.
 		// No other HTML (neither app nor layout) is wrapped around it.

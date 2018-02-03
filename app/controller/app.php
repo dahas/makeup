@@ -70,7 +70,9 @@ class App extends Module
 		// Connecting the navbar
 		$marker["%NAVBAR%"] = $this->buildNavbar($modName);
 
-		$marker["%PAGE_TITLE%"] = isset($modConf['page_settings']['subtitle']) ? $modConf['page_settings']['subtitle'] : "";
+		$marker["%CONFIG_LANG%"] = isset($_SESSION['_config']['page_settings']['html_lang']) ? $_SESSION['_config']['page_settings']['html_lang'] : "";
+
+		$marker["%PAGE_TITLE%"] = isset($_SESSION['_config']['page_settings']['subtitle']) ? $_SESSION['_config']['page_settings']['subtitle'] : "";
 
 		return $this->getTemplate()->parse($marker);
 	}
