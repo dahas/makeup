@@ -17,10 +17,10 @@ class TwbsTable extends Module
 	/**
 	 * This is how you inject a service.
 	 *
-	 * @Inject("makeup\services\Data")
+	 * @Inject("makeup\services\members")
 	 * @var
 	 */
-	private $DataService;
+	private $members;
 
 
 	/**
@@ -46,12 +46,12 @@ class TwbsTable extends Module
 		$marker["%TMPL_ROWS%"] = "";
 		
 		// Get the basic data.
-		$count = $this->DataService->useService();
+		$count = $this->members->useService();
 		
 		#Tools::debug("count = $count");
 
 		// Iterate with next() thru the data that the service provides.
-		while ($dataItem = $this->DataService->next()) {
+		while ($dataItem = $this->members->next()) {
 			$mkArr = [
 				"%UID%" => $dataItem->getProperty("uid"), // With getProperty(item) you get the value of a specific item.
 				"%NAME%" => $dataItem->getProperty("name"),
