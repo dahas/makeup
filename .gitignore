@@ -1,3 +1,8 @@
 # Ignore folders
 /.idea/
+/.vscode/
 /vendor/
+
+# Ignore files
+create_phar.php
+cli.php
