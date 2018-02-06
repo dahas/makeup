@@ -14,23 +14,20 @@ abstract class Service
 	
 	protected $table = "";
 	protected $columns = "*";
-	protected $where = [];
 
 
 	/**
 	 * 
-	 * @param String $table Name of the table
-	 * @param String $columns Comma-separaated list of columns (optional, default is *)
-	 * @param String $where Where clause, optional
+	 * @param string $table Name of the table
+	 * @param string $columns Comma-separaated list of columns (optional, default is *)
 	 */
-	public function __construct($table = "", $columns = "*", $where = "")
+	public function __construct($table = "", $columns = "*")
 	{
 		// Get the database instance
 		$this->DB = DB::getInstance();
 
 		$this->table = $table;
 		$this->columns = $columns;
-		$this->where = $where;
 	}
 
 
@@ -55,14 +52,14 @@ abstract class Service
 	 * READ from database. 
 	 * @return int $count
 	 */
-	public function read()
+	public function read($where = "")
 	{
 		$statement = [
 			"columns" => $this->columns,
 			"from" => $this->table
 		];
-		if ($this->where) {
-			$statement = array_merge($statement, ["where" => $this->where]);
+		if ($where) {
+			$statement = array_merge($statement, ["where" => $where]);
 		}
 		$this->recordset = $this->DB->select($statement);
 		
@@ -71,9 +68,42 @@ abstract class Service
 
 
 	/**
-	 * This function is more an alias. The name might be easier 
-	 * to understand when implementing the service.
-	 * @return int RecordCount
+	 * UPDATE an existing record
+	 * 
+	 * @param string $columns Comma-separeted columns
+	 * @param string $values Comma-separeted values
+	 * @return boolean $inserted
+	 */
+	public function update($set, $where)
+	{
+		return $this->DB->update([
+			"table" => $this->table,
+			"set" => $set,
+			"where" => $where
+		]);
+	}
+
+
+	/**
+	 * DELETE a record
+	 * 
+	 * @param string $columns Comma-separeted columns
+	 * @param string $values Comma-separeted values
+	 * @return boolean $inserted
+	 */
+	public function delete($where)
+	{
+		return $this->DB->delete([
+			"from" => $this->table,
+			"where" => $where
+		]);
+	}
+
+
+	/**
+	 * Returns the amount of records.
+	 * 
+	 * @return int $count
 	 */
 	public function count()
 	{
@@ -81,21 +111,34 @@ abstract class Service
 	}
 	
 	
+	/**
+	 * Get a single record by the given column and its value.
+	 * 
+	 * @param string $key Column
+	 * @param string $value Value
+	 * @return object $serviceItem
+	 */
 	public function getByKey($key, $value)
 	{
+		$this->recordset = $this->DB->select([
+			"columns" => $this->columns,
+			"from" => $this->table,
+			"where" => "$key='$value'"
+		]);
 		
+		return $this->next();
 	}
 	
 	/**
 	 * Creates the model of the data provided by the service.
 	 * Cannot be executed before useService() has been run.
-	 * @return mixed
+	 * @return object|null $serviceItem
 	 * @throws \Exception
 	 */
 	public function next()
 	{
 		if (!$this->recordset) {
-			throw new \Exception('No collection found! Run method "read()" first.');
+			throw new \Exception('No collection found! Create a recordset first.');
 		}
 
 		if ($record = $this->recordset->getRecord()) {

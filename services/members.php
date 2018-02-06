@@ -17,32 +17,13 @@ class members extends Service
 		/**
 		 * Call of parent constructor is mandatory.
 		 * 
-		 * @param String $table Name of the table
-		 * @param String $columns Comma-separated list of columns (optional, default is *)
-		 * @param String $where Where clause (optional)
+		 * @param string $table Name of the table
+		 * @param string $columns Comma-separated list of columns (optional, default is *)
 		 */
 		parent::__construct(
 			"data",
-			"uid, name, age, city, country",
-			"name LIKE '%a%' AND age > 30"
+			"uid, name, age, city, country"
 		);
-	}
-
-
-	/**
-	 * READ from database
-	 * 
-	 * @param string $where	Where clause.
-	 * @return int $count
-	 */
-	public function read()
-	{
-		$this->recordset = $this->DB->select([
-			"columns" => $this->columns,
-			"from" => $this->table
-		]);
-
-		return $this->count();
 	}
 
 }

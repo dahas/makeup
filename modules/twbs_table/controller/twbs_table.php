@@ -46,11 +46,13 @@ class TwbsTable extends Module
 		$marker["##TMPL_ROWS##"] = "";
 		
 		// Get the basic data.
-		$count = $this->members->read();
+		$count = $this->members->read("age > 30");
 
 		#$this->members->create("name, age, city, country", "Karl, 66, München, Germany");
-		
-		#Tools::debug("count = $count");
+		#$this->members->update("name='Klaus'", "uid=5");
+		#$this->members->delete("uid=5");
+		#$member = $this->members->getByKey("uid", 2);
+		#Tools::debug($member);
 
 		// Iterate with next() thru the data that the service provides.
 		while ($dataItem = $this->members->next()) {
