@@ -16,11 +16,15 @@ class members extends Service
 	{
 		/**
 		 * Call of parent constructor is mandatory.
+		 * 
+		 * @param String $table
+		 * @param String $columns Comma-separated list of columns (optional, default is *.)
+		 * @param String $where Where clause, optional
 		 */
 		parent::__construct(
 			"data", // Name of the table
-			"uid, name, age, city, country",	// Comma-separated list of columns (optional, default is *.)
-			"name LIKE '%a%'"	// WHERE clause (optional)
+			"uid, name, age, city, country",
+			"name LIKE '%a%' AND age > 30"
 		);
 	}
 
@@ -40,7 +44,6 @@ class members extends Service
 		
 		return $this->useService($rs);
 	}
-
 
 }
 

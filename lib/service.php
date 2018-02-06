@@ -19,24 +19,24 @@ abstract class Service
 
 	/**
 	 * 
-	 * @param type $table			Name of the table
-	 * @param type $columns		Required columns (optional, default is *)
+	 * @param String $table Name of the table
+	 * @param String $columns Comma-separaated list of columns (optional, default is *)
+	 * @param String $where Where clause, optional
 	 */
-	public function __construct($table = "", $columns = "*", $where = [])
+	public function __construct($table = "", $columns = "*", $where = "")
 	{
 		// Get the database instance
 		$this->DB = DB::getInstance();
 
 		$this->table = $table;
 		$this->columns = $columns;
-		
-		$this->setWhere($where);
+		$this->where = $where;
 	}
 
 
 	/**
 	 * Creates the recordset from the basic setup of the service. 
-	 * @return int	Records count
+	 * @return int $count
 	 */
 	public function useService($recordset = null)
 	{
@@ -47,8 +47,8 @@ abstract class Service
 				"columns" => $this->columns,
 				"from" => $this->table
 			];
-			if (!empty($this->where)) {
-				$statement = array_merge($statement, $this->where);
+			if ($this->where) {
+				$statement = array_merge($statement, ["where" => $this->where]);
 			}
 			$this->recordset = $this->DB->select($statement);
 		}
@@ -64,12 +64,6 @@ abstract class Service
 	public function count()
 	{
 		return $this->recordset->getRecordCount();
-	}
-	
-	
-	public function setWhere($where)
-	{
-		$this->where = ["where" => $where];
 	}
 	
 	
