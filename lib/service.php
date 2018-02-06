@@ -126,7 +126,7 @@ abstract class Service
 			"where" => "$key='$value'"
 		]);
 		
-		return $this->next();
+		return $this->next($key, $value);
 	}
 	
 	/**
@@ -135,7 +135,7 @@ abstract class Service
 	 * @return object|null $serviceItem
 	 * @throws \Exception
 	 */
-	public function next()
+	public function next($key = "", $value = "")
 	{
 		if (!$this->recordset) {
 			throw new \Exception('No collection found! Create a recordset first.');
@@ -143,8 +143,8 @@ abstract class Service
 
 		if ($record = $this->recordset->getRecord()) {
 			// Getting name of child class (our service)
-			$serviceClass = get_class($this) . "Item";
-			return new $serviceClass($record);
+			$serviceItem = get_class($this) . "Item";
+			return new $serviceItem($this->DB, $record, $this->table, $key, $value);
 		}
 
 		$this->recordset->reset();

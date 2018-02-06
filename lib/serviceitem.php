@@ -9,23 +9,37 @@ namespace makeup\lib;
  */
 class ServiceItem
 {
+    private $DB = null;
     private $record = null;
+    private $table = "";
+    private $key = "";
+    private $value = "";
 
 
     /**
-     * DataItem constructor.
-     * @param $record
+     * ServiceItem constructor.
+     * 
+     * @param object $db Database
+     * @param object $record Single record
+     * @param object $table Table name
+     * @param object $key Column name
+     * @param object $value Column value
      */
-    public function __construct($record)
+    public function __construct($db, $record, $table, $key, $value)
     {
+        $this->DB = $db;
         $this->record = $record;
+        $this->table = $table;
+        $this->key = $key;
+        $this->value = $value;
     }
 
 
     /**
-     * Getter function to access a property
-     * @param $item
-     * @return mixed
+     * Access a property.
+     * 
+     * @param string $item
+     * @return string $value
      */
     public function getProperty($item)
     {
@@ -34,13 +48,38 @@ class ServiceItem
 
 
     /**
-     * Setter function to change the value of a property
-     * @param $item
-     * @param $value
-     * @return mixed
+     * Change the value of a property.
+     * 
+     * @param string $item
+     * @param string $value
      */
     public function setProperty($item, $value)
     {
         $this->record->$item = $value;
+    }
+
+
+    /**
+     * Update the record.
+     * 
+     * @return boolean $updated
+     */
+    public function update()
+    {
+        $set = [];
+
+        foreach($this->record as $item => $value) {
+            $set[] = "$item='$value'";
+        }
+
+        if (!empty($set)) {
+            return $this->DB->update([
+                "table" => $this->table,
+                "set" => implode(", ", $set),
+                "where" => $this->key . "=" . $this->value
+            ]);
+        }
+        
+        return false;
     }
 }

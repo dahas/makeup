@@ -44,15 +44,17 @@ class TwbsTable extends Module
 		// Or get an extra template file for the supart.
 		$partial = $this->getTemplate("twbs_table_row.html");
 		$marker["##TMPL_ROWS##"] = "";
-		
-		// Get the basic data.
-		$count = $this->members->read("age > 30");
 
 		#$this->members->create("name, age, city, country", "Karl, 66, München, Germany");
 		#$this->members->update("name='Klaus'", "uid=5");
 		#$this->members->delete("uid=5");
-		#$member = $this->members->getByKey("uid", 2);
+		$member = $this->members->getByKey("uid", 2);
+		$member->setProperty("name", "Gustavo");
+		$member->update();
 		#Tools::debug($member);
+		
+		// Get the data:
+		$count = $this->members->read("age > 30");
 
 		// Iterate with next() thru the data that the service provides.
 		while ($dataItem = $this->members->next()) {
