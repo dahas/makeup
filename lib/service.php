@@ -14,7 +14,7 @@ abstract class Service
 	
 	private $table = "";
 	private $columns = "*";
-	private $where = "";
+	private $where = [];
 
 
 	/**
@@ -22,13 +22,15 @@ abstract class Service
 	 * @param type $table			Name of the table
 	 * @param type $columns		Required columns (optional, default is *)
 	 */
-	public function __construct($table = "", $columns = "*")
+	public function __construct($table = "", $columns = "*", $where = [])
 	{
 		// Get the database instance
 		$this->DB = DB::getInstance();
 
 		$this->table = $table;
 		$this->columns = $columns;
+		
+		$this->setWhere($where);
 	}
 
 
@@ -41,10 +43,14 @@ abstract class Service
 		if ($recordset) {
 			$this->recordset = $recordset;
 		} else {
-			$this->recordset = $this->DB->select([
+			$statement = [
 				"columns" => $this->columns,
 				"from" => $this->table
-			]);
+			];
+			if (!empty($this->where)) {
+				$statement = array_merge($statement, $this->where);
+			}
+			$this->recordset = $this->DB->select($statement);
 		}
 		return $this->count();
 	}
@@ -63,7 +69,7 @@ abstract class Service
 	
 	public function setWhere($where)
 	{
-		
+		$this->where = ["where" => $where];
 	}
 	
 	

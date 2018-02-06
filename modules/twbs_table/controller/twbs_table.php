@@ -38,12 +38,12 @@ class TwbsTable extends Module
 	public function build()
 	{
 		// Get a supart of the template like this and treat it like a template.
-		$subpart = $this->getTemplate()->getPartial("%SUBPART_ROWS%");
-		$spMarker["%SUBPART_ROWS%"] = "";
+		$subpart = $this->getTemplate()->getPartial("##SUBPART_ROWS##");
+		$spMarker["##SUBPART_ROWS##"] = "";
 
 		// Or get an extra template file for the supart.
 		$partial = $this->getTemplate("twbs_table_row.html");
-		$marker["%TMPL_ROWS%"] = "";
+		$marker["##TMPL_ROWS##"] = "";
 		
 		// Get the basic data.
 		$count = $this->members->useService();
@@ -53,14 +53,14 @@ class TwbsTable extends Module
 		// Iterate with next() thru the data that the service provides.
 		while ($dataItem = $this->members->next()) {
 			$mkArr = [
-				"%UID%" => $dataItem->getProperty("uid"), // With getProperty(item) you get the value of a specific item.
-				"%NAME%" => $dataItem->getProperty("name"),
-				"%AGE%" => $dataItem->getProperty("age"),
-				"%CITY%" => $dataItem->getProperty("city"),
-				"%COUNTRY%" => $dataItem->getProperty("country")
+				"##UID##" => $dataItem->getProperty("uid"), // With getProperty(item) you get the value of a specific item.
+				"##NAME##" => $dataItem->getProperty("name"),
+				"##AGE##" => $dataItem->getProperty("age"),
+				"##CITY##" => $dataItem->getProperty("city"),
+				"##COUNTRY##" => $dataItem->getProperty("country")
 			];
-			$spMarker["%SUBPART_ROWS%"] .= $subpart->parse($mkArr);
-			$marker["%TMPL_ROWS%"] .= $partial->parse($mkArr);
+			$spMarker["##SUBPART_ROWS##"] .= $subpart->parse($mkArr);
+			$marker["##TMPL_ROWS##"] .= $partial->parse($mkArr);
 		}
 
 		return $this->getTemplate()->parse($marker, $spMarker);

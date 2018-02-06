@@ -15,11 +15,12 @@ class members extends Service
 	public function __construct()
 	{
 		/**
-		 * Call parent constructor and provide some options.
+		 * Call of parent constructor is mandatory.
 		 */
 		parent::__construct(
 			"data", // Name of the table
-			"uid, name, age, city, country"	// Required columns (optional, default is *.)
+			"uid, name, age, city, country",	// Comma-separated list of columns (optional, default is *.)
+			"name LIKE '%a%'"	// WHERE clause (optional)
 		);
 	}
 
@@ -32,8 +33,8 @@ class members extends Service
 	public function selectUsers($name)
 	{
 		$rs = $this->DB->select([
-			"columns" => "*",
-			"from" => "data",
+			"columns" => $this->columns,
+			"from" => $this->table,
 			"where" => "name='$name'"
 		]);
 		

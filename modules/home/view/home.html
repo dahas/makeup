@@ -4,90 +4,250 @@
 
         <div class="col-xs-12 col-sm-12">
             <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i
-                        class="fa fa-chevron-left"></i></button>
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
             </p>
             <div class="row">
                 <div class="col-xs-4 col-lg-4">
                     <div class="page-header">
                         <h1>What is it?</h1>
                     </div>
-                    <p><b class="italic">makeUp</b> is an easy to use PHP framework and a compilation of popular
-                        frontend libraries. It is a
-                        package that includes almost everything you need to build awesome web applications from the
-                        ground
-                        up.</p>
-                    <p><a class="btn btn-default" href="#" role="button">Read more ...</a></p>
+                    <p>
+                        <b class="italic">makeUp</b> is an easy to use PHP framework and a compilation of popular frontend libraries. It is
+                        a package that includes almost everything you need to build awesome web applications from the ground
+                        up.
+                    </p>
+                    <p>
+                        <a class="btn btn-default" href="#" role="button">Read more ...</a>
+                    </p>
                 </div>
                 <div class="col-xs-4 col-lg-4">
                     <div class="page-header">
                         <h1>Requirements</h1>
                     </div>
-                    <p>In order to get <b class="italic">makeUp</b> to work, you need PHP 5.6 or above, a MySQL database
-                        and a local webserver. If
-                        you have installed <b>Xampp</b> lately (or something similar) you should already be set up.</p>
-                    <p><a class="btn btn-default" href="#" role="button">Read more ...</a></p>
+                    <p>In order to get
+                        <b class="italic">makeUp</b> to work, you need PHP 5.6 or above, a MySQL database and a local webserver. If you have
+                        installed
+                        <b>Xampp</b> lately (or something similar) you should already be set up.</p>
+                    <p>
+                        <a class="btn btn-default" href="#" role="button">Read more ...</a>
+                    </p>
                 </div>
                 <div class="col-xs-4 col-lg-4">
                     <div class="page-header">
                         <h1>Download</h1>
                     </div>
-                    <p>Either download <b class="italic">makeUp</b> from <a href="https://github.com/dahas/makeup"
-                                                                            target="_blank">GitHub</a>, or make a
-                        clone: <br/>
-                    <pre>$ git clone https://github.com/dahas/makeup.git</pre>
+                    <p>Either download
+                        <b class="italic">makeUp</b> from
+                        <a href="https://github.com/dahas/makeup" target="_blank">GitHub</a>, or make a clone:
+                        <br/>
+                        <pre>$ git clone https://github.com/dahas/makeup.git</pre>
                     </p>
                 </div>
 
-                <div class="col-xs-12 col-lg-12">
+                <div class="col-xs-12 col-lg-8">
                     <div class="page-header">
                         <h1>Get started</h1>
                     </div>
                     <p>
-                    <ol>
-                        <li>The source files must be in a folder named "makeup", that is within the root directory of
-                            your project.
-                        </li>
-                        <li>Install dependent libraries<br/>
-                            <pre>$ cd makeup
+                        <ol>
+                            <li>Create folder "makeup", that is within the root directory of your project.
+                                <pre>$ mkdir makeup</pre>
+                            </li>
+                            <li>Install dependent libraries
+                                <br/>
+                                <pre>$ cd makeup
 $ php composer.phar install</pre>
-                        </li>
-                        <li>
-                            Create file index.php in your root folder. Paste the following lines into it:
-                            <pre>%CODE%</pre>
-                        </li>
-                        <li>
-                            Launch your app in the web browser.
-                        </li>
-                    </ol>
+                            </li>
+                            <li>
+                                Create file index.php in your root folder. Paste the following lines into it:
+                                <pre>%CODE%</pre>
+                            </li>
+                            <li>
+                                Launch your app in the web browser.
+                            </li>
+                        </ol>
                     </p>
                 </div>
 
-                <div class="col-xs-12 col-lg-12">
+                <div class="col-xs-12 col-lg-4">
                     <div class="page-header">
-                        <h1>Next steps</h1>
+                        <h1>&nbsp;</h1>
                     </div>
                     <p>
-                    <ul>
-                        <li><a href="#">Learn how to modify your app.</a></li>
-                        <li><a href="#">Learn how to create your own modules.</a></li>
-                        <li><a href="#">Learn how to create and inject services.</a></li>
-                        <li><a href="#">Learn about security and how to protect the content.</a></li>
-                    </ul>
+                        <ul>
+                            <li>
+                                <a href="#">Get started</a>
+                            </li>
+                            <li>
+                                <a href="#">Create a module</a>
+                            </li>
+                            <li>
+                                <a href="#">Use a module</a>
+                            </li>
+                            <li>
+                                <a href="#">Markers</a>
+                            </li>
+                            <li>
+                                <a href="#">Subparts</a>
+                            </li>
+                            <li>
+                                <a href="#">Create a service</a>
+                            </li>
+                            <li>
+                                <a href="#">Use a service</a>
+                            </li>
+                            <li>
+                                <a href="#">Styling</a>
+                            </li>
+                        </ul>
                     </p>
                 </div>
 
-            </div><!--/row-->
+                <div class="col-xs-12 col-lg-8">
+                    <div class="page-header">
+                        <h1>Create a module</h1>
+                    </div>
+                    <p>
+                        <ol>
+                            <li>Use the makeup.phar CLI to create a module with a specific name.
+                                <br/>
+                                <pre>$ cd makeup
+$ php makeup.phar --create-module YourModule</pre>
+                            </li>
+                            <li>
+                                Check the info in the terminal. All files and folders must have been successfully created.
+                            </li>
+                            <li>
+                                Launch your app in a browser and add
+                                <b>?mod=your_module</b> to the URL.
+                            </li>
+                        </ol>
+                    </p>
+                </div>
+
+                <div class="col-xs-12 col-lg-8">
+                    <div class="page-header">
+                        <h1>Use a module</h1>
+                    </div>
+                    <ul>
+                        <li>Make an instance of your module and render it.
+                            <br/>
+                            <pre>$yourModule = Module::create("your_module");
+$yourModule->render();</pre>
+                        </li>
+                        <li>
+                            Instead of render() you can call any other task you have defined in your module.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-lg-8">
+                    <div class="page-header">
+                        <h1>Markers</h1>
+                    </div>
+                    <ul>
+                        <li>Markers are special strings, that you place in the HTML template.
+                            <br/>
+                            <pre>&lt;span>##THIS_IS_A_MARKER##&lt;/span></pre>
+                        </li>
+                        <li>In the php controller you use an array to assign the marker. The $marker array must then be injected into the parse method of the template object. 
+                                <br/>
+                                <pre>public function build()
+{
+    $marker = [];
+    $marker["##THIS_IS_A_MARKER##"] = "makeUp is great!";
+    return $this->getTemplate()->parse($marker);
+}</pre>
+                            </li>
+                        <li>This is how the marker looks after the template has been rendered.
+                                <br/>
+                                <pre>&lt;span>makeUp is great!&lt;/span></pre>
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-12 col-lg-8">
+                        <div class="page-header">
+                            <h1>Subparts</h1>
+                        </div>
+                        <ul>
+                            <li>Markers can also be replaced with code segments. Those segments are called subparts. Subparts are a great way to render large lists or tables. 
+                                In this example the marker ##TMPL_ROWS## will be replaced dynamically with multiple rows.
+                                <br/>
+                                <pre>&lt;table class="table table-striped">
+    &lt;thead>
+        &lt;tr>
+            &lt;th>#&lt;/th>
+            &lt;th>First Name&lt;/th>
+            &lt;th>Last Name&lt;/th>
+            &lt;th>Username&lt;/th>
+            &lt;th>Country&lt;/th>
+        &lt;/tr>
+    &lt;/thead>
+    &lt;tbody>
+        ##TMPL_ROWS##
+    &lt;/tbody>
+&lt;/table></pre>
+                            </li>
+                            <li>Create a special template file "rows.html" in the view folder with the following content. 
+                                As you can see, the template contains markers, that are treated with ease, as we already learned above.
+                                <br/>
+                                <pre>&lt;tr>
+    &lt;td>##UID##&lt;/td>
+    &lt;td>##NAME##&lt;/td>
+    &lt;td>##AGE##&lt;/td>
+    &lt;td>##CITY##&lt;/td>
+    &lt;td>##COUNTRY##&lt;/td>
+&lt;/tr></pre>
+                            </li>
+                            <li>Instantiate a template object for "rows.html" in the build method of the controller. Use the parse function of that object within the foreach loop 
+                                and add rendered content to the main marker.
+                                    <br/>
+                                    <pre>public function build()
+{
+    $marker = [];
+    $rowsTmpl = $this->getTemplate("rows.html");
+    $marker["##TMPL_ROWS##"] = "";
+
+    $items = [
+        ["uid" => 1, "name" => "Jaques", "age" => 27, "city" => "Paris", "country" => "France"],
+        ["uid" => 2, "name" => "Karin", "age" => 31, "city" => "Berlin", "country" => "Germany"],
+        ["uid" => 3, "name" => "Paul", "age" => 54, "city" => "London", "country" => "Great Britain"],
+        ["uid" => 4, "name" => "Vittoria", "age" => 40, "city" => "Rome", "country" => "Italy"],
+    ];
+
+    foreach ($items as $item) {
+        $mkArr = [
+            "##UID##" => $item["uid"],
+            "##NAME##" => $item["name"],
+            "##AGE##" => $item["age"],
+            "##CITY##" => $item["city"],
+            "##COUNTRY##" => $item["country"]
+        ];
+        $marker["##TMPL_ROWS##"] .= $rowsTmpl->parse($mkArr);
+    }
+
+    return $this->getTemplate()->parse($marker);
+}</pre>
+                                </li>
+                        </ul>
+                    </div>
+
+                <div class="col-xs-12 col-lg-8">
+                    <div class="page-header">
+                        <h1>Styling</h1>
+                    </div>
+                    <p>
+                        Every module has its own CSS file, where you can place your individual styles. But of course you can put your styles all
+                        together globally into app.css.
+                    </p>
+                </div>
+
+            </div>
+            <!--/row-->
         </div>
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas hidden" id="sidebar">
-            <div class="list-group">
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-                <a href="#" class="list-group-item">Link</a>
-            </div>
-        </div><!--/.sidebar-offcanvas-->
     </div>
 </div>
