@@ -31,6 +31,9 @@ abstract class Service
 	}
 
 
+	/****** CRUD functions ******/
+
+
 	/**
 	 * CREATE a new record
 	 * 
@@ -52,7 +55,7 @@ abstract class Service
 	 * READ from database. 
 	 * @return int $count
 	 */
-	public function read($where = "")
+	public function read($where = "", $groupBy = "", $orderBy = "")
 	{
 		$statement = [
 			"columns" => $this->columns,
@@ -60,6 +63,12 @@ abstract class Service
 		];
 		if ($where) {
 			$statement = array_merge($statement, ["where" => $where]);
+		}
+		if ($groupBy) {
+			$statement = array_merge($statement, ["groupBy" => $groupBy]);
+		}
+		if ($orderBy) {
+			$statement = array_merge($statement, ["orderBy" => $orderBy]);
 		}
 		$this->recordset = $this->DB->select($statement);
 		

@@ -25,7 +25,6 @@ class members extends Service
 			"uid, name, age, city, country"
 		);
 	}
-
 }
 
 

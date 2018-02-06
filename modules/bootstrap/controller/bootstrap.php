@@ -1,6 +1,7 @@
 <?php
 
 use makeup\lib\Module;
+use makeup\lib\Tools;
 
 
 /**
@@ -13,7 +14,7 @@ use makeup\lib\Module;
 class Bootstrap extends Module
 {
 	/**
-	 * Calling the parent constructor is required!
+	 * Calling the parent constructor is mandatory!
 	 */
 	public function __construct()
 	{
@@ -22,26 +23,15 @@ class Bootstrap extends Module
 
 
 	/**
+	 * The mandatory build function.
+	 * 
 	 * @return mixed|string
 	 */
 	public function build()
 	{
-		$marker["%MOD_TWBS_TABLE%"] = Module::create("twbs_table")->render();
-
-		return $this->getTemplate()->parse($marker);
+		Tools::debug($this);
+		return $this->getTemplate()->parse();
 	}
-
-
-	/**
-	 * A simple task.
-	 *
-	 * @return mixed|string
-	 */
-	public function helloWorld()
-	{
-		return "Hello World!";
-	}
-
 
 }
 
