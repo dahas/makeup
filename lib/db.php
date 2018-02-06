@@ -92,7 +92,7 @@ class DB
             $valArr = explode(",", $conf['values']);
             $newArr = array();
             foreach ($valArr as $val) {
-                $newArr[] = "'" . mysqli_real_escape_string($this->conn, $val) . "'";
+                $newArr[] = "'" . trim(mysqli_real_escape_string($this->conn, $val)) . "'";
             }
             $newValues = implode(",", $newArr);
             $sql .= " VALUES ($newValues)";

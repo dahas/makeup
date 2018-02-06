@@ -46,7 +46,9 @@ class TwbsTable extends Module
 		$marker["##TMPL_ROWS##"] = "";
 		
 		// Get the basic data.
-		$count = $this->members->useService();
+		$count = $this->members->read();
+
+		#$this->members->create("name, age, city, country", "Karl, 66, München, Germany");
 		
 		#Tools::debug("count = $count");
 

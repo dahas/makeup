@@ -10,11 +10,11 @@ namespace makeup\lib;
 abstract class Service
 {
 	protected $DB = null;
-	private $recordset = null;
+	protected $recordset = null;
 	
-	private $table = "";
-	private $columns = "*";
-	private $where = [];
+	protected $table = "";
+	protected $columns = "*";
+	protected $where = [];
 
 
 	/**
@@ -35,23 +35,37 @@ abstract class Service
 
 
 	/**
-	 * Creates the recordset from the basic setup of the service. 
+	 * CREATE a new record
+	 * 
+	 * @param string $columns Comma-separeted columns
+	 * @param string $values Comma-separeted values
+	 * @return boolean $inserted
+	 */
+	public function create($columns, $values)
+	{
+		return $this->DB->insert([
+			"into" => $this->table,
+			"columns" => $columns,
+			"values" => $values
+		]);
+	}
+
+
+	/**
+	 * READ from database. 
 	 * @return int $count
 	 */
-	public function useService($recordset = null)
+	public function read()
 	{
-		if ($recordset) {
-			$this->recordset = $recordset;
-		} else {
-			$statement = [
-				"columns" => $this->columns,
-				"from" => $this->table
-			];
-			if ($this->where) {
-				$statement = array_merge($statement, ["where" => $this->where]);
-			}
-			$this->recordset = $this->DB->select($statement);
+		$statement = [
+			"columns" => $this->columns,
+			"from" => $this->table
+		];
+		if ($this->where) {
+			$statement = array_merge($statement, ["where" => $this->where]);
 		}
+		$this->recordset = $this->DB->select($statement);
+		
 		return $this->count();
 	}
 
@@ -81,7 +95,7 @@ abstract class Service
 	public function next()
 	{
 		if (!$this->recordset) {
-			throw new \Exception('No collection found! Run method "useService()" first.');
+			throw new \Exception('No collection found! Run method "read()" first.');
 		}
 
 		if ($record = $this->recordset->getRecord()) {

@@ -17,12 +17,12 @@ class members extends Service
 		/**
 		 * Call of parent constructor is mandatory.
 		 * 
-		 * @param String $table
-		 * @param String $columns Comma-separated list of columns (optional, default is *.)
-		 * @param String $where Where clause, optional
+		 * @param String $table Name of the table
+		 * @param String $columns Comma-separated list of columns (optional, default is *)
+		 * @param String $where Where clause (optional)
 		 */
 		parent::__construct(
-			"data", // Name of the table
+			"data",
 			"uid, name, age, city, country",
 			"name LIKE '%a%' AND age > 30"
 		);
@@ -30,19 +30,19 @@ class members extends Service
 
 
 	/**
-	 * Function with a more complex SQL statement. If you have defined
-	 * a setup before a custom select, the setup will be overwritten.
-	 * @param type $name	Parameter for where clause.
+	 * READ from database
+	 * 
+	 * @param string $where	Where clause.
+	 * @return int $count
 	 */
-	public function selectUsers($name)
+	public function read()
 	{
-		$rs = $this->DB->select([
+		$this->recordset = $this->DB->select([
 			"columns" => $this->columns,
-			"from" => $this->table,
-			"where" => "name='$name'"
+			"from" => $this->table
 		]);
-		
-		return $this->useService($rs);
+
+		return $this->count();
 	}
 
 }
