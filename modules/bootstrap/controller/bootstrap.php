@@ -29,7 +29,6 @@ class Bootstrap extends Module
 	 */
 	public function build()
 	{
-		Tools::debug($this);
 		return $this->getTemplate()->parse();
 	}
 

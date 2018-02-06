@@ -123,7 +123,7 @@ class Tools
 	 */
 	public static function lowerCamelCase($input, $separator = '_')
 	{
-		str_replace($separator, '', lcfirst(ucwords($input, $separator)));
+		return str_replace($separator, '', lcfirst(ucwords($input, $separator)));
 	}
 
 
