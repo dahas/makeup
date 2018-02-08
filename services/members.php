@@ -6,20 +6,11 @@ use makeup\lib\Service;
 use makeup\lib\ServiceItem;
 
 
-// /**
-//  * You inject a service via annotaion in a specific module, like this:
-//  *
-//  * @Inject("makeup\services\Members")
-//  * @var
-//  */
-// private $members;
-
-
 /**
  * Collection of members
  * @package makeup\services
  */
-class members extends Service
+class Members extends Service
 {
 	public function __construct()
 	{
@@ -43,7 +34,7 @@ class members extends Service
  * Class DataItem
  * @package makeup\services
  */
-class membersItem extends ServiceItem
+class MembersItem extends ServiceItem
 {
 	
 }

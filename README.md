@@ -2,7 +2,7 @@
 <b>makeUp</b> is an easy to use PHP framework and a compilation of popular frontend libraries. It is a package that includes almost everything you need to build awesome web applications from the ground up.
 
 Components:
-- makeUp PHP/MySQL Framework
+- makeUp PHP Framework
 - jQuery
 - Twitter Bootstrap
 - Font Awesome
