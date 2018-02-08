@@ -183,7 +183,7 @@ class ErrorMod
 
 	public function __construct($modName)
 	{
-		$this->modName = strtolower("mod_$modName");
+		$this->modName = strtolower("$modName");
 	}
 
 

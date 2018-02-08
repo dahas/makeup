@@ -4,12 +4,10 @@ namespace makeup\app\controller;
 
 /*******************************************************************************
  *
- * BUILD -> PARSE -> RENDER -> EXECUTE
+ * The app
  * 
- * This class creates the HTML skeleton. It adds meta tags, 
- * javascript- and css-files to the related sections of the template file.
- * 
- * Use the ini-File to modify these settings: app/config/app.ini
+ * This class is the main module. It creates the HTML skeleton, in which 
+ * the modules are wrapped as subsets.
  *
  ***************************************************************************** */
 
@@ -50,29 +48,29 @@ class App extends Module
 	public function build($modName = "")
 	{
 		// Creating and rendering the requested module. (Must come first!)
-		$marker["%CONTENT%"] = Module::create($modName)->render();
+		$marker["##CONTENT##"] = Module::create($modName)->render();
 		
 		// Adds meta tags to the head section as defined in the ini files.
-		$marker['%CONF_METATAGS%'] = Template::createMetaTags();
+		$marker['##CONF_METATAGS##'] = Template::createMetaTags();
 		
 		// Adds the title to the head section as defined in the ini files.
-		$marker['%TITLE%'] = Template::createTitleTag();
+		$marker['##TITLE##'] = Template::createTitleTag();
 
 		// Adds stylsheet links to the head section as defined in the ini files.
-		$marker['%CONF_CSS_FILES%'] = Template::createStylesheetTags();
+		$marker['##CONF_CSS_FILES##'] = Template::createStylesheetTags();
 
 		// Adds javascript files to the head section as defined in the ini files.
-		$marker['%CONF_JS_FILES_HEAD%'] = Template::createJsFilesHeadTags();
+		$marker['##CONF_JS_FILES_HEAD##'] = Template::createJsFilesHeadTags();
 
 		// Adds javascript files to the body section as defined in the ini files.
-		$marker['%CONF_JS_FILES_BODY%'] = Template::createJsFilesBodyTags();
+		$marker['##CONF_JS_FILES_BODY##'] = Template::createJsFilesBodyTags();
 
 		// Connecting the navbar
-		$marker["%NAVBAR%"] = $this->buildNavbar($modName);
+		$marker["##NAVBAR##"] = $this->buildNavbar($modName);
 
-		$marker["%CONFIG_LANG%"] = isset($_SESSION['_config']['page_settings']['html_lang']) ? $_SESSION['_config']['page_settings']['html_lang'] : "";
+		$marker["##CONFIG_LANG##"] = isset($_SESSION['_config']['page_settings']['html_lang']) ? $_SESSION['_config']['page_settings']['html_lang'] : "";
 
-		$marker["%PAGE_TITLE%"] = isset($_SESSION['_config']['page_settings']['subtitle']) ? $_SESSION['_config']['page_settings']['subtitle'] : "";
+		$marker["##PAGE_TITLE##"] = isset($_SESSION['_config']['page_settings']['subtitle']) ? $_SESSION['_config']['page_settings']['subtitle'] : "";
 
 		return $this->getTemplate()->parse($marker);
 	}
@@ -89,16 +87,16 @@ class App extends Module
 		$menu["home"] = ["link" => "/", "text" => "Get started"];
 		$menu["bootstrap"] = ["link" => "?mod=bootstrap", "text" => "Bootstrap Theme"];
 		
-		$navbar = $this->getTemplate("navbar.html");
-		$navbarMenu = $navbar->getPartial("%MENU%");
-		$partialNavbar["%MENU%"] = "";
+		$navbar = $this->getTemplate("app.navbar.html");
+		$navbarMenu = $navbar->getPartial("##MENU##");
+		$partialNavbar["##MENU##"] = "";
 		
 		foreach ($menu as $item => $data)
 		{
-			$partialNavbar["%MENU%"] .= $navbarMenu->parse([
-				"%LINK%" => $data["link"],
-				"%TEXT%" => $data["text"],
-				"%ACTIVE%" => $item == $modName ? 'class="active"' : ''
+			$partialNavbar["##MENU##"] .= $navbarMenu->parse([
+				"##LINK##" => $data["link"],
+				"##TEXT##" => $data["text"],
+				"##ACTIVE##" => $item == $modName ? 'class="active"' : ''
 			]);
 		}
 		
