@@ -88,7 +88,7 @@ class App extends Module
 		$menu["bootstrap"] = ["link" => "?mod=bootstrap", "text" => "Bootstrap Theme"];
 		
 		$navbar = $this->getTemplate("app.navbar.html");
-		$navbarMenu = $navbar->getPartial("##MENU##");
+		$navbarMenu = $navbar->getSlice("##MENU##");
 		$partialNavbar["##MENU##"] = "";
 		
 		foreach ($menu as $item => $data)

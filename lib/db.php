@@ -2,7 +2,6 @@
 
 namespace makeup\lib;
 
-
 /**
  * Class DB
  * @package makeup\lib
@@ -10,19 +9,12 @@ namespace makeup\lib;
 class DB
 {
     private static $instance = null;
-
     private $conn = null;
-
     private $db = "";
-
     private $host = "";
-
     private $user = "";
-
     private $pass = "";
-
     private $charset = "utf8";
-
 
     /**
      * Protected constructor, because we use a singleton.
@@ -42,18 +34,18 @@ class DB
         mysqli_set_charset($this->conn, $this->charset);
     }
 
-
     /**
      * Singleton
      * @return null|DB
      */
     public static function getInstance()
     {
-        if (self::$instance == null)
+        if (self::$instance == null) {
             self::$instance = new DB();
+        }
+
         return self::$instance;
     }
-
 
     /**
      * @param array $conf
@@ -62,20 +54,33 @@ class DB
     public function select($conf)
     {
         $sql = "SELECT";
-        if (isset($conf['columns']))
+        if (isset($conf['columns'])) {
             $sql .= " {$conf['columns']}";
-        if (isset($conf['from']))
+        }
+
+        if (isset($conf['from'])) {
             $sql .= " FROM {$conf['from']}";
-        if (isset($conf['where']))
+        }
+
+        if (isset($conf['where'])) {
             $sql .= " WHERE {$conf['where']}";
-        if (isset($conf['groupBy']))
+        }
+
+        if (isset($conf['groupBy'])) {
             $sql .= " GROUP BY {$conf['groupBy']}";
-        if (isset($conf['orderBy']))
+        }
+
+        if (isset($conf['orderBy'])) {
             $sql .= " ORDER BY {$conf['orderBy']}";
+        }
+
+        if (isset($conf['limit'])) {
+            $sql .= " LIMIT {$conf['limit']}";
+        }
+
         $rs = mysqli_query($this->conn, $sql);
         return new Recordset($rs);
     }
-
 
     /**
      * @param array $conf
@@ -84,10 +89,14 @@ class DB
     public function insert($conf)
     {
         $sql = "INSERT INTO";
-        if (isset($conf['into']))
+        if (isset($conf['into'])) {
             $sql .= " {$conf['into']}";
-        if (isset($conf['columns']))
+        }
+
+        if (isset($conf['columns'])) {
             $sql .= " ({$conf['columns']})";
+        }
+
         if (isset($conf['values'])) {
             $valArr = explode(",", $conf['values']);
             $newArr = array();
@@ -98,11 +107,12 @@ class DB
             $sql .= " VALUES ($newValues)";
         }
         $res = mysqli_query($this->conn, $sql);
-        if ($res)
+        if ($res) {
             return mysqli_insert_id($this->conn);
+        }
+
         return 0;
     }
-
 
     /**
      * @param array $conf
@@ -111,15 +121,20 @@ class DB
     public function update($conf)
     {
         $sql = "UPDATE";
-        if (isset($conf['table']))
+        if (isset($conf['table'])) {
             $sql .= " {$conf['table']}";
-        if (isset($conf['set']))
+        }
+
+        if (isset($conf['set'])) {
             $sql .= " SET {$conf['set']}";
-        if (isset($conf['where']))
+        }
+
+        if (isset($conf['where'])) {
             $sql .= " WHERE {$conf['where']}";
+        }
+
         return mysqli_query($this->conn, $sql);
     }
-
 
     /**
      * @param array $conf
@@ -128,25 +143,28 @@ class DB
     public function delete($conf)
     {
         $sql = "DELETE FROM";
-        if (isset($conf['from']))
+        if (isset($conf['from'])) {
             $sql .= " {$conf['from']}";
-        if (isset($conf['where']))
+        }
+
+        if (isset($conf['where'])) {
             $sql .= " WHERE {$conf['where']}";
+        }
+
         return mysqli_query($this->conn, $sql);
     }
-
 
     /**
      * Destructor
      */
     public function __destruct()
     {
-        if (mysqli_close($this->conn))
+        if (mysqli_close($this->conn)) {
             $this->conn = null;
+        }
     }
 
 }
-
 
 class Recordset
 {
@@ -155,7 +173,6 @@ class Recordset
     const FETCH_ROW = 0;
     const FETCH_ASSOC = 1;
     const FETCH_OBJECT = 2;
-
 
     /**
      * Recordset constructor.
@@ -166,7 +183,6 @@ class Recordset
         $this->recordset = $rs;
     }
 
-
     /**
      * @return int
      */
@@ -174,7 +190,6 @@ class Recordset
     {
         return $this->recordset ? mysqli_num_rows($this->recordset) : 0;
     }
-
 
     /**
      * @return bool
@@ -184,20 +199,22 @@ class Recordset
         return $this->recordset ? mysqli_data_seek($this->recordset, 0) : null;
     }
 
-
     /**
      * @param int $fetch
      * @return array|null|object
      */
     public function getRecord($fetch = self::FETCH_OBJECT)
     {
-        if ($fetch === self::FETCH_ASSOC)
+        if ($fetch === self::FETCH_ASSOC) {
             return mysqli_fetch_assoc($this->recordset);
-        if ($fetch === self::FETCH_OBJECT)
+        }
+
+        if ($fetch === self::FETCH_OBJECT) {
             return $this->recordset ? mysqli_fetch_object($this->recordset) : null;
+        }
+
         return mysqli_fetch_row($this->recordset);
     }
-
 
     /**
      * Destructor

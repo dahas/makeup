@@ -61,7 +61,7 @@ class Template
 	}
 
 
-	public function getPartial($marker)
+	public function getSlice($marker)
 	{
 		$start = strpos($this->html, $marker);
 		if ($start === false) {

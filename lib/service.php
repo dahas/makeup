@@ -11,38 +11,47 @@ abstract class Service
 {
 	protected $DB = null;
 	protected $recordset = null;
-	
+
 	protected $table = "";
+	protected $autoIncrement = "";
 	protected $columns = "*";
 
 
 	/**
 	 * 
 	 * @param string $table Name of the table
-	 * @param string $columns Comma-separaated list of columns (optional, default is *)
+	 * @param string $autoIncrement The unique column that increases automatically.
+	 * @param string $columns Comma-separated list of columns (optional, default is *)
 	 */
-	public function __construct($table = "", $columns = "*")
+	public function __construct($table = "", $autoIncrement = "", $columns = "*")
 	{
 		// Get the database instance
 		$this->DB = DB::getInstance();
 
 		$this->table = $table;
+		$this->autoIncrement = $autoIncrement;
 		$this->columns = $columns;
 	}
 
 
 	/****** CRUD functions ******/
 
-
 	/**
 	 * CREATE a new record
 	 * 
-	 * @param string $columns Comma-separeted columns
 	 * @param string $values Comma-separeted values
+	 * @param string $columns Comma-separeted columns (optional)
 	 * @return boolean $inserted
 	 */
-	public function create($columns, $values)
+	public function create($values, $columns = "")
 	{
+		$columns = $columns ? $columns : $this->columns;
+		$columns = array_map('trim', $columns);
+
+		if (($key = array_search($this->autoIncrement, $columns)) !== false) {
+			unset($columns[$key]);
+		}
+
 		return $this->DB->insert([
 			"into" => $this->table,
 			"columns" => $columns,
@@ -52,10 +61,15 @@ abstract class Service
 
 
 	/**
-	 * READ from database. 
+	 * READ table from the database. 
+	 * 
+	 * @param string $where MySQL WHERE clause (optional)
+	 * @param string $groupBy MySQL GROUP BY clause (optional)
+	 * @param string $orderBy MySQL ORDER BY clause (optional)
+	 * @param string $limit MySQL LIMIT clause (optional)
 	 * @return int $count
 	 */
-	public function read($where = "", $groupBy = "", $orderBy = "")
+	public function read($where = "", $groupBy = "", $orderBy = "", $limit = "")
 	{
 		$statement = [
 			"columns" => $this->columns,
@@ -70,6 +84,9 @@ abstract class Service
 		if ($orderBy) {
 			$statement = array_merge($statement, ["orderBy" => $orderBy]);
 		}
+		if ($limit) {
+			$statement = array_merge($statement, ["limit" => $limit]);
+		}
 		$this->recordset = $this->DB->select($statement);
 		
 		return $this->count();
@@ -79,9 +96,9 @@ abstract class Service
 	/**
 	 * UPDATE an existing record
 	 * 
-	 * @param string $columns Comma-separeted columns
-	 * @param string $values Comma-separeted values
-	 * @return boolean $inserted
+	 * @param string $set Comma-separeted key/value pairs (E.g. col1='str', col2='str', col3='int', ...)
+	 * @param string $where MySQL WHERE clause
+	 * @return boolean $updated
 	 */
 	public function update($set, $where)
 	{
@@ -96,9 +113,8 @@ abstract class Service
 	/**
 	 * DELETE a record
 	 * 
-	 * @param string $columns Comma-separeted columns
-	 * @param string $values Comma-separeted values
-	 * @return boolean $inserted
+	 * @param string $where MySQL WHERE clause
+	 * @return boolean $deleted
 	 */
 	public function delete($where)
 	{
@@ -110,7 +126,7 @@ abstract class Service
 
 
 	/**
-	 * Returns the amount of records.
+	 * Returns the records count.
 	 * 
 	 * @return int $count
 	 */
@@ -124,7 +140,7 @@ abstract class Service
 	 * Get a single record by the given column and its value.
 	 * 
 	 * @param string $key Column
-	 * @param string $value Value
+	 * @param string|int $value Value
 	 * @return object $serviceItem
 	 */
 	public function getByKey($key, $value)

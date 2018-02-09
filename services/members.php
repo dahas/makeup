@@ -8,6 +8,7 @@ use makeup\lib\ServiceItem;
 
 /**
  * Collection of members
+ * 
  * @package makeup\services
  */
 class Members extends Service
@@ -18,11 +19,13 @@ class Members extends Service
 		 * Call of parent constructor is mandatory.
 		 * 
 		 * @param string $table Name of the table
+		 * @param string $autoIncrement The unique column that increases automatically. 
 		 * @param string $columns Comma-separated list of columns (optional, default is *)
 		 */
 		parent::__construct(
 			"data",
-			"uid, name, age, city, country"
+			"uid",
+			"name, age, city, country"
 		);
 	}
 }
