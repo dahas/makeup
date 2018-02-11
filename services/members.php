@@ -16,17 +16,14 @@ class Members extends Service
 	public function __construct()
 	{
 		/**
-		 * Call of parent constructor is mandatory.
-		 * 
-		 * @param string $table Name of the table
-		 * @param string $autoIncrement The unique column that increases automatically. 
-		 * @param string $columns Comma-separated list of columns (optional, default is *)
-		 */
-		parent::__construct(
-			"data",
+         * IMPORTANT: Modify the constructor first.
+         * Supply the table name and optionally the unique column that increases automatically and the specific columns.
+         */
+        parent::__construct(
+            "data",
 			"uid",
 			"name, age, city, country"
-		);
+        );
 	}
 }
 

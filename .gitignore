@@ -2,7 +2,9 @@
 /.idea/
 /.vscode/
 /vendor/
+/modules/test/
 
 # Ignore files
 create_phar.php
 cli.php
+/services/test.php

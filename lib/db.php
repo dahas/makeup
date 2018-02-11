@@ -116,7 +116,7 @@ class DB
 
     /**
      * @param array $conf
-     * @return bool|\mysqli_result
+     * @return bool|mysqli_result
      */
     public function update($conf)
     {
@@ -138,7 +138,7 @@ class DB
 
     /**
      * @param array $conf
-     * @return bool|\mysqli_result
+     * @return bool|mysqli_result
      */
     public function delete($conf)
     {
@@ -170,10 +170,6 @@ class Recordset
 {
     private $recordset = null;
 
-    const FETCH_ROW = 0;
-    const FETCH_ASSOC = 1;
-    const FETCH_OBJECT = 2;
-
     /**
      * Recordset constructor.
      * @param $rs
@@ -200,20 +196,18 @@ class Recordset
     }
 
     /**
-     * @param int $fetch
+     * Iterate through collection
+     * 
      * @return array|null|object
      */
-    public function getRecord($fetch = self::FETCH_OBJECT)
+    public function next()
     {
-        if ($fetch === self::FETCH_ASSOC) {
-            return mysqli_fetch_assoc($this->recordset);
+        $record = $this->recordset ? mysqli_fetch_object($this->recordset) : null;
+        if ($record) {
+            return $record;
+        } else {
+            return null;
         }
-
-        if ($fetch === self::FETCH_OBJECT) {
-            return $this->recordset ? mysqli_fetch_object($this->recordset) : null;
-        }
-
-        return mysqli_fetch_row($this->recordset);
     }
 
     /**
@@ -224,4 +218,54 @@ class Recordset
         mysqli_free_result($this->recordset);
     }
 
+}
+
+
+/**
+ * Class Record
+ * @package makeup\lib
+ */
+class Record
+{
+    private $record = null;
+
+    /**
+     * Record constructor.
+     * 
+     * @param object $record Single record
+     */
+    public function __construct($record)
+    {
+        $this->record = $record;
+    }
+
+    /**
+     * Access a property.
+     * 
+     * @param string $item
+     * @return mixed $value
+     */
+    public function getProperty($item)
+    {
+        return isset($this->record->$item) ? $this->record->$item : null;
+    }
+
+    /**
+     * Change the value of a property.
+     * 
+     * @param string $item
+     * @param mixed $value
+     */
+    public function setProperty($item, $value)
+    {
+        $this->record->$item = $value;
+    }
+
+    /**
+     * Destructor
+     */
+    public function __destruct()
+    {
+        unset($this->record);
+    }
 }

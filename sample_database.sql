@@ -17,11 +17,11 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`makeup` /*!40100 DEFAULT CHARACTER SET 
 
 USE `makeup`;
 
-/*Table structure for table `data` */
+/*Table structure for table `sampledata` */
 
-DROP TABLE IF EXISTS `data`;
+DROP TABLE IF EXISTS `sampledata`;
 
-CREATE TABLE `data` (
+CREATE TABLE `sampledata` (
   `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `age` smallint(3) unsigned NOT NULL DEFAULT '0',
@@ -30,15 +30,19 @@ CREATE TABLE `data` (
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-/*Data for the table `data` */
+/*Data for the table `sampledata` */
 
-insert  into `data`(`uid`,`name`,`age`,`city`,`country`) values 
+insert  into `sampledata`(`uid`,`name`,`age`,`city`,`country`) values 
 
-(1,'John',42,'Hamburg','Germany'),
+(1,'Karl Auer',42,'Hamburg','Germany'),
 
-(2,'Pavel',56,'Prag','Czech Republic'),
+(2,'Pavel Nemec',56,'Prag','Czech Republic'),
 
-(3,'Paolo',27,'Rio de Janeiro','Brazil');
+(3,'Paolo di Santo',27,'Rio de Janeiro','Brazil'),
+
+(4,'Vittoria Ranieri',31,'Rome','Italy'),
+
+(5,'Jenny from the Block',27,'New York','U.S.A.');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

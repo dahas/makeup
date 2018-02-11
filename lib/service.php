@@ -166,7 +166,7 @@ abstract class Service
 			throw new \Exception('No collection found! Create a recordset first.');
 		}
 
-		if ($record = $this->recordset->getRecord()) {
+		if ($record = $this->recordset->next()) {
 			// Getting name of child class (our service)
 			$serviceItem = get_class($this) . "Item";
 			return new $serviceItem($this->DB, $record, $this->table, $key, $value);
