@@ -82,4 +82,18 @@ class ServiceItem
         
         return false;
     }
+
+
+    /**
+     * Delete a record.
+     * 
+     * @return boolean $deleted
+     */
+    public function delete()
+    {
+        return $this->DB->delete([
+            "from" => $this->table,
+            "where" => $this->key . "=" . $this->value
+        ]);
+    }
 }

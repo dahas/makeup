@@ -215,7 +215,8 @@ class Recordset
      */
     public function __destruct()
     {
-        mysqli_free_result($this->recordset);
+        if ($this->recordset)
+            mysqli_free_result($this->recordset);
     }
 
 }

@@ -13,24 +13,27 @@ abstract class Service
 	protected $recordset = null;
 
 	protected $table = "";
-	protected $autoIncrement = "";
+	protected $uniqueId = "";
 	protected $columns = "*";
 
 
 	/**
 	 * 
 	 * @param string $table Name of the table
-	 * @param string $autoIncrement The unique column that increases automatically.
+	 * @param string $uniqueId The unique column that increases automatically.
 	 * @param string $columns Comma-separated list of columns (optional, default is *)
 	 */
-	public function __construct($table = "", $autoIncrement = "", $columns = "*")
+	public function __construct($config)
 	{
 		// Get the database instance
 		$this->DB = DB::getInstance();
 
-		$this->table = $table;
-		$this->autoIncrement = $autoIncrement;
-		$this->columns = $columns;
+		if (isset($config["table"]))
+			$this->table = $config["table"];
+		if (isset($config["uniqueID"]))
+			$this->uniqueId = $config["uniqueID"];
+		if (isset($config["columns"]))
+			$this->columns = $config["columns"];
 	}
 
 
@@ -39,24 +42,25 @@ abstract class Service
 	/**
 	 * CREATE a new record
 	 * 
-	 * @param string $values Comma-separeted values
-	 * @param string $columns Comma-separeted columns (optional)
+	 * @param array $values Values
 	 * @return boolean $inserted
 	 */
-	public function create($values, $columns = "")
+	public function create($values)
 	{
-		$columns = $columns ? $columns : $this->columns;
-		$columns = array_map('trim', $columns);
+		$colsArr = explode(",", $this->columns);
+		$columns = array_map('trim', $colsArr);
 
-		if (($key = array_search($this->autoIncrement, $columns)) !== false) {
+		if (($key = array_search($this->uniqueId, $columns)) !== false) {
 			unset($columns[$key]);
 		}
 
-		return $this->DB->insert([
+		$insertId = $this->DB->insert([
 			"into" => $this->table,
-			"columns" => $columns,
-			"values" => $values
+			"columns" => implode(",", $columns),
+			"values" => implode(",", $values)
 		]);
+
+		return $this->getByUniqueId($insertId);
 	}
 
 
@@ -133,6 +137,24 @@ abstract class Service
 	public function count()
 	{
 		return $this->recordset->getRecordCount();
+	}
+	
+	
+	/**
+	 * Get a single record by the given column and its value.
+	 * 
+	 * @param string|int $value Value
+	 * @return object $serviceItem
+	 */
+	public function getByUniqueId($value)
+	{
+		$this->recordset = $this->DB->select([
+			"columns" => $this->columns,
+			"from" => $this->table,
+			"where" => "{$this->uniqueId}='$value'"
+		]);
+		
+		return $this->next($this->uniqueId, $value);
 	}
 	
 	

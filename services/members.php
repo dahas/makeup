@@ -20,7 +20,7 @@ class Members extends Service
          * Supply the table name and optionally the unique column that increases automatically and the specific columns.
          */
         parent::__construct(
-            "data",
+            "sampledata",
 			"uid",
 			"name, age, city, country"
         );
