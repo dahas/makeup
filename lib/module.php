@@ -12,7 +12,6 @@ use DI\ContainerBuilder;
  */
 abstract class Module
 {
-	protected $RQ = array();
 	protected $config = array();
 	private $className = "";
 	private $moduleFileName = "";
@@ -21,16 +20,13 @@ abstract class Module
 	public function __construct()
 	{
 		Session::start();
-		
 		SysCookie::read();
-
+		Config::init($this->moduleFileName); // Loads config.ini
+		RQ::init(); // Initializes the URL query components
+		
 		$modNsArr = explode("\\", get_class($this));
 		$this->className = array_pop($modNsArr);
 		$this->moduleFileName = Tools::camelCaseToUnderscore($this->className);
-
-		Config::init($this->moduleFileName); // Loads config.ini
-
-		$this->RQ = Tools::parseQueryString();
 	}
 	
 	
@@ -56,15 +52,15 @@ abstract class Module
 		}
 
 		// Parameter "mod" is the required module name.
-		$modName = $debugMod ? $debugMod : $this->RQ['mod'];
+		$modName = $debugMod ? $debugMod : RQ::GET('mod');
 
 		// Parameter "task" is required, so that the module knows, 
 		// which task to execute.
-		$task = $debugTask ? $debugTask : $this->RQ['task'];
+		$task = $debugTask ? $debugTask : RQ::GET('task');
 
 		// With parameter "nowrap" a module is rendered with its own template only.
 		// No other HTML (neither app nor layout) is wrapped around it.
-		if (!isset($this->RQ['wrap']) && (isset($this->RQ['nowrap']) || $task != "build")) {
+		if (!RQ::GET('wrap') && (RQ::GET('nowrap') || $task != "build")) {
 			$appHtml = Module::create($modName)->$task();
 		} else {
 			// The app will be renderd, if it is NOT protected.

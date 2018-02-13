@@ -39,32 +39,6 @@ class Tools
 		else
 			return null;
 	}
-	
-	
-	public static function parseQueryString()
-	{
-		$varArr = array();
-		if (isset($_SERVER['QUERY_STRING'])) {
-			$qs = $_SERVER['QUERY_STRING'];
-			$vars = explode("&", $qs);
-			foreach ($vars as $var) {
-				$parts = explode("=", $var);
-				if (count($parts) == 2)
-					$varArr[$parts[0]] = self::filterInput($parts[1]);
-				else
-					$varArr[$parts[0]] = "";
-			}
-		}
-
-		// Parameters "mod" and "task" are always required!
-		if (!isset($varArr["mod"]))
-			$varArr["mod"] = Config::get("app_settings", "default_module");
-
-		if (!isset($varArr["task"]))
-			$varArr["task"] = "build";
-
-		return $varArr;
-	}
 
 
 	/**
@@ -82,16 +56,6 @@ class Tools
 	public static function getBodyOnload()
 	{
 		return self::$bodyOnload;
-	}
-
-
-	/**
-	 * @param $input
-	 * @return mixed
-	 */
-	private static function filterInput($input)
-	{
-		return filter_var(rawurldecode($input), FILTER_SANITIZE_STRING);
 	}
 
 

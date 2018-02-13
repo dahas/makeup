@@ -37,33 +37,6 @@ abstract class Service
 	}
 
 
-	/****** CRUD functions ******/
-
-	/**
-	 * CREATE a new record
-	 * 
-	 * @param array $values Values
-	 * @return boolean $inserted
-	 */
-	public function create($values)
-	{
-		$colsArr = explode(",", $this->columns);
-		$columns = array_map('trim', $colsArr);
-
-		if (($key = array_search($this->uniqueId, $columns)) !== false) {
-			unset($columns[$key]);
-		}
-
-		$insertId = $this->DB->insert([
-			"into" => $this->table,
-			"columns" => implode(",", $columns),
-			"values" => implode(",", $values)
-		]);
-
-		return $this->getByUniqueId($insertId);
-	}
-
-
 	/**
 	 * READ table from the database. 
 	 * 
@@ -98,34 +71,27 @@ abstract class Service
 
 
 	/**
-	 * UPDATE an existing record
+	 * CREATE a new record
 	 * 
-	 * @param string $set Comma-separeted key/value pairs (E.g. col1='str', col2='str', col3='int', ...)
-	 * @param string $where MySQL WHERE clause
-	 * @return boolean $updated
+	 * @param array $values Values
+	 * @return boolean $inserted
 	 */
-	public function update($set, $where)
+	public function create($values)
 	{
-		return $this->DB->update([
-			"table" => $this->table,
-			"set" => $set,
-			"where" => $where
-		]);
-	}
+		$colsArr = explode(",", $this->columns);
+		$columns = array_map('trim', $colsArr);
 
+		if (($key = array_search($this->uniqueId, $columns)) !== false) {
+			unset($columns[$key]);
+		}
 
-	/**
-	 * DELETE a record
-	 * 
-	 * @param string $where MySQL WHERE clause
-	 * @return boolean $deleted
-	 */
-	public function delete($where)
-	{
-		return $this->DB->delete([
-			"from" => $this->table,
-			"where" => $where
+		$insertId = $this->DB->insert([
+			"into" => $this->table,
+			"columns" => implode(",", $columns),
+			"values" => implode(",", $values)
 		]);
+
+		return $this->getByUniqueId($insertId);
 	}
 
 
