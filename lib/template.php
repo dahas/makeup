@@ -95,16 +95,16 @@ class Template
 	}
 
 
-	private function replaceSubpart($html, $subpartArr)
+	private function replaceSlice($html, $slicesArr)
 	{
-		foreach ($subpartArr as $key => $val) {
-			$html = self::trimSubpart($html, $key, $val);
+		foreach ($slicesArr as $key => $val) {
+			$html = self::trimSlice($html, $key, $val);
 		}
 		return $html;
 	}
 
 
-	private static function trimSubpart($html, $marker, $subpart, $recursive = 1)
+	private static function trimSlice($html, $marker, $slice, $recursive = 1)
 	{
 		$start = strpos($html, $marker);
 		if ($start === false) {
@@ -120,13 +120,13 @@ class Template
 		$after = substr($html, $stopAM);
 		$between = substr($html, $startAM, $stop - $startAM);
 		if ($recursive) {
-			$after = self::trimSubpart($after, $marker, $subpart, $recursive);
+			$after = self::trimSlice($after, $marker, $slice, $recursive);
 		}
 		$matches = array();
 		if (preg_match('/^(.*)\<\!\-\-[^\>]*$/s', $before, $matches) === 1) {
 			$before = $matches[1];
 		}
-		if (is_array($subpart)) {
+		if (is_array($slice)) {
 			$matches = array();
 			if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $between, $matches) === 1) {
 				$between = $matches[2];
@@ -140,23 +140,23 @@ class Template
 		if (preg_match('/^[^\<]*\-\-\>(.*)$/s', $after, $matches) === 1) {
 			$after = $matches[1];
 		}
-		if (is_array($subpart)) {
-			$between = $subpart[0] . $between . $subpart[1];
+		if (is_array($slice)) {
+			$between = $slice[0] . $between . $slice[1];
 		} else {
-			$between = $subpart;
+			$between = $slice;
 		}
 		return $before . $between . $after;
 	}
 
 
-	public function parse($markerArr = array(), $subpartArr = array())
+	public function parse($markerArr = array(), $slicesArr = array())
 	{
 		$html = $this->html;
 		if (!empty($markerArr)) {
 			$html = $this->replaceMarker($html, $markerArr);
 		}
-		if (!empty($subpartArr)) {
-			$html = $this->replaceSubpart($html, $subpartArr);
+		if (!empty($slicesArr)) {
+			$html = $this->replaceSlice($html, $slicesArr);
 		}
 		return $html;
 	}
