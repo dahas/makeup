@@ -11,16 +11,19 @@ class RQ
 	private static $get = array();
 	private static $post = array();
 	
-	public static function init()
+	public static function init($currentModule)
 	{
 		self::$get = self::parseQueryString();
 		self::$post = self::parseFormData();
 
-		unset($_GET);
-		$_GET = null;
-		
-		unset($_POST);
-		$_POST = null;
+		if ($currentModule == self::$get["mod"]) {
+			unset($_GET);
+			$_GET = null;
+			
+			unset($_POST);
+			$_POST = null;
+		}
+	
 	}
 
 	/**
@@ -31,7 +34,7 @@ class RQ
 	 */
 	public static function GET($key)
 	{
-		return isset(self::$get[$key]) ?self::$get[$key] : null;
+		return isset(self::$get[$key]) ? self::$get[$key] : null;
 	}
 
 	/**
@@ -42,7 +45,7 @@ class RQ
 	 */
 	public static function POST($key)
 	{
-		return isset(self::$post[$key]) ?self::$post[$key] : null;
+		return isset(self::$post[$key]) ? self::$post[$key] : null;
 	}
 
 	public static function parseQueryString()
