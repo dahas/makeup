@@ -19,6 +19,7 @@ abstract class Module
 
 	public function __construct()
 	{
+		RQ::init();
 		Session::start();
 		SysCookie::read();
 		Config::init($this->moduleFileName); // Loads config.ini
@@ -26,8 +27,6 @@ abstract class Module
 		$modNsArr = explode("\\", get_class($this));
 		$this->className = array_pop($modNsArr);
 		$this->moduleFileName = Tools::camelCaseToUnderscore($this->className);
-		
-		RQ::init($this->moduleFileName); // Initializes the URL query components
 	}
 	
 	

@@ -8,22 +8,10 @@ namespace makeup\lib;
  */
 class RQ
 {
-	private static $get = array();
-	private static $post = array();
-	
-	public static function init($currentModule)
+	public static function init()
 	{
-		self::$get = self::parseQueryString();
-		self::$post = self::parseFormData();
-
-		if ($currentModule == self::$get["mod"]) {
-			unset($_GET);
-			$_GET = null;
-			
-			unset($_POST);
-			$_POST = null;
-		}
-	
+		$_GET = self::parseQueryString();
+		$_POST = self::parseFormData();
 	}
 
 	/**
@@ -34,7 +22,7 @@ class RQ
 	 */
 	public static function GET($key)
 	{
-		return isset(self::$get[$key]) ? self::$get[$key] : null;
+		return isset($_GET[$key]) ? $_GET[$key] : null;
 	}
 
 	/**
@@ -45,25 +33,14 @@ class RQ
 	 */
 	public static function POST($key)
 	{
-		return isset(self::$post[$key]) ? self::$post[$key] : null;
+		return isset($_POST[$key]) ? $_POST[$key] : null;
 	}
 
 	public static function parseQueryString()
 	{
-		$varArr = array();
-		if (isset($_SERVER['QUERY_STRING'])) {
-			$qs = $_SERVER['QUERY_STRING'];
-			$vars = explode("&", $qs);
-			foreach ($vars as $var) {
-				$parts = explode("=", $var);
-				if (count($parts) == 2)
-					$varArr[$parts[0]] = self::filterInput($parts[1]);
-				else
-					$varArr[$parts[0]] = "";
-			}
-		}
+		$varArr = array_map('self::filterInput', $_GET);
 
-		// Parameters "mod" and "task" are always required!
+		// Parameters "mod" and "task" are mandatory!
 		if (!isset($varArr["mod"]))
 			$varArr["mod"] = Config::get("app_settings", "default_module");
 
@@ -75,14 +52,7 @@ class RQ
 
 	public static function parseFormData()
 	{
-		$varArr = array();
-		if (isset($_POST)) {
-			foreach ($_POST as $post => $var) {
-				$varArr[$post] = self::filterInput($var);
-			}
-		}
-
-		return $varArr;
+		return array_map('self::filterInput', $_POST);
 	}
 
 	/**
